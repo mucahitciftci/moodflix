@@ -1,0 +1,168 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../core/constants/app_dimens.dart';
+import '../../core/localization/l10n/generated/app_localizations.dart';
+import '../../core/routing/app_router.dart';
+import '../../viewmodels/auth_viewmodel.dart';
+
+/// Email/password login — also the app's startup screen when no one is
+/// signed in (see `AuthGateScreen`), in which case a "continue as guest"
+/// option is shown too (browsing/watchlist never required an account; only
+/// reviews do). When reached by pushing on top of another screen (e.g. the
+/// "write a review" flow), it pops itself automatically once
+/// [authStateProvider] reports a signed-in user — including when reached
+/// via `SignUpScreen`, whose own success-pop cascades back through this
+/// screen too.
+class LoginScreen extends ConsumerStatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _obscurePassword = true;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _showForgotPasswordDialog() async {
+    final l10n = AppLocalizations.of(context);
+    final controller = TextEditingController(text: _emailController.text);
+
+    final email = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.forgotPasswordLabel),
+        content: TextField(
+          controller: controller,
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(labelText: l10n.emailLabel),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(l10n.cancelLabel),
+          ),
+          TextButton(
+            onPressed: () =>
+                Navigator.of(dialogContext).pop(controller.text.trim()),
+            child: Text(l10n.sendResetLinkLabel),
+          ),
+        ],
+      ),
+    );
+    controller.dispose();
+
+    if (email == null || email.isEmpty || !mounted) return;
+    await ref.read(authViewModelProvider.notifier).sendPasswordResetEmail(email);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l10n.resetLinkSentMessage)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final authState = ref.watch(authViewModelProvider);
+    final isStartupGate = !Navigator.of(context).canPop();
+
+    ref.listen(authStateProvider, (previous, next) {
+      if (next.valueOrNull != null && Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+    });
+
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.loginScreenTitle)),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(AppDimens.spaceM),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: AppDimens.authFormMaxWidth),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(labelText: l10n.emailLabel),
+                ),
+                const SizedBox(height: AppDimens.spaceM),
+                TextField(
+                  controller: _passwordController,
+                  obscureText: _obscurePassword,
+                  decoration: InputDecoration(
+                    labelText: l10n.passwordLabel,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                      ),
+                      onPressed: () =>
+                          setState(() => _obscurePassword = !_obscurePassword),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: _showForgotPasswordDialog,
+                    child: Text(l10n.forgotPasswordLabel),
+                  ),
+                ),
+                const SizedBox(height: AppDimens.spaceM),
+                if (authState.hasError)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: AppDimens.spaceM),
+                    child: Text(
+                      l10n.authErrorGeneric,
+                      style: TextStyle(color: Theme.of(context).colorScheme.error),
+                    ),
+                  ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: authState.isLoading
+                        ? null
+                        : () => ref.read(authViewModelProvider.notifier).signIn(
+                              email: _emailController.text.trim(),
+                              password: _passwordController.text,
+                            ),
+                    child: authState.isLoading
+                        ? const SizedBox(
+                            width: AppDimens.iconM,
+                            height: AppDimens.iconM,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Text(l10n.loginScreenTitle),
+                  ),
+                ),
+                const SizedBox(height: AppDimens.spaceM),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pushNamed(AppRoutes.signUp),
+                  child: Text(l10n.goToSignUpLabel),
+                ),
+                if (isStartupGate)
+                  TextButton(
+                    onPressed: () =>
+                        ref.read(guestModeProvider.notifier).continueAsGuest(),
+                    child: Text(l10n.continueAsGuestLabel),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

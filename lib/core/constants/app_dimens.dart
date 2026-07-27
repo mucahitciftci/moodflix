@@ -59,6 +59,9 @@ abstract final class AppDimens {
   static const int reviewMaxRating = 5;
   static const int reviewTextMaxLength = 2000;
 
+  // Auth forms (login/sign up) — centered, capped width on wide screens
+  static const double authFormMaxWidth = 400;
+
   // Elevation
   static const double elevationS = 2;
   static const double elevationM = 6;

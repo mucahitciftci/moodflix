@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../models/discovery_source.dart';
 import '../../models/movie_model.dart';
-import '../../views/screens/browse_mode_screen.dart';
+import '../../views/screens/auth_gate_screen.dart';
 import '../../views/screens/category_selection_screen.dart';
 import '../../views/screens/discovery_screen.dart';
+import '../../views/screens/login_screen.dart';
 import '../../views/screens/mood_selection_screen.dart';
 import '../../views/screens/movie_detail_screen.dart';
 import '../../views/screens/search_screen.dart';
 import '../../views/screens/settings_screen.dart';
+import '../../views/screens/sign_up_screen.dart';
 import '../../views/screens/watchlist_screen.dart';
 
 /// Named route identifiers. No `Navigator.push`/`pushNamed` call anywhere in
@@ -23,6 +25,8 @@ abstract final class AppRoutes {
   static const String movieDetail = '/movie-detail';
   static const String search = '/search';
   static const String settings = '/settings';
+  static const String login = '/login';
+  static const String signUp = '/sign-up';
 }
 
 abstract final class AppRouter {
@@ -54,6 +58,16 @@ abstract final class AppRouter {
           builder: (_) => const SettingsScreen(),
           settings: settings,
         );
+      case AppRoutes.login:
+        return MaterialPageRoute(
+          builder: (_) => const LoginScreen(),
+          settings: settings,
+        );
+      case AppRoutes.signUp:
+        return MaterialPageRoute(
+          builder: (_) => const SignUpScreen(),
+          settings: settings,
+        );
       case AppRoutes.watchlist:
         return MaterialPageRoute(
           builder: (_) => const WatchlistScreen(),
@@ -68,7 +82,7 @@ abstract final class AppRouter {
       case AppRoutes.browseMode:
       default:
         return MaterialPageRoute(
-          builder: (_) => const BrowseModeScreen(),
+          builder: (_) => const AuthGateScreen(),
           settings: settings,
         );
     }

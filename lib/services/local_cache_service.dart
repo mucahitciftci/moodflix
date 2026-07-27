@@ -10,6 +10,10 @@ class LocalCacheService {
   static const String moviePagesBoxName = 'movie_pages_cache';
   static const String watchlistBoxName = 'watchlist_movies';
   static const String favoritesBoxName = 'favorite_movies';
+  static const String appPrefsBoxName = 'app_prefs';
+
+  static const String _themeModeKey = 'theme_mode';
+  static const String _localeKey = 'locale';
 
   /// Must be awaited once, before `runApp`, so every box is open by the
   /// time any repository reads from it.
@@ -18,11 +22,25 @@ class LocalCacheService {
     await Hive.openBox<dynamic>(moviePagesBoxName);
     await Hive.openBox<dynamic>(watchlistBoxName);
     await Hive.openBox<dynamic>(favoritesBoxName);
+    await Hive.openBox<dynamic>(appPrefsBoxName);
   }
 
   Box<dynamic> get _moviePagesBox => Hive.box<dynamic>(moviePagesBoxName);
   Box<dynamic> get _watchlistBox => Hive.box<dynamic>(watchlistBoxName);
   Box<dynamic> get _favoritesBox => Hive.box<dynamic>(favoritesBoxName);
+  Box<dynamic> get _appPrefsBox => Hive.box<dynamic>(appPrefsBoxName);
+
+  // --- App preferences (theme, language) — device-local, independent of
+  // whether the user is signed in, so logging in/out never touches these. ---
+
+  String? getThemeMode() => _appPrefsBox.get(_themeModeKey) as String?;
+
+  Future<void> setThemeMode(String mode) => _appPrefsBox.put(_themeModeKey, mode);
+
+  String? getLocaleLanguageCode() => _appPrefsBox.get(_localeKey) as String?;
+
+  Future<void> setLocaleLanguageCode(String languageCode) =>
+      _appPrefsBox.put(_localeKey, languageCode);
 
   String _pageKey(String sourceKey, int page) => '${sourceKey}_page_$page';
 

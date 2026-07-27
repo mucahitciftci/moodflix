@@ -451,6 +451,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'English'**
   String get languageEn;
+
+  /// No description provided for @loginScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log In'**
+  String get loginScreenTitle;
+
+  /// No description provided for @signUpScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUpScreenTitle;
+
+  /// No description provided for @emailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get emailLabel;
+
+  /// No description provided for @passwordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordLabel;
+
+  /// No description provided for @displayNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your name'**
+  String get displayNameLabel;
+
+  /// No description provided for @forgotPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get forgotPasswordLabel;
+
+  /// No description provided for @sendResetLinkLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get sendResetLinkLabel;
+
+  /// No description provided for @resetLinkSentMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset link sent to your email.'**
+  String get resetLinkSentMessage;
+
+  /// No description provided for @cancelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelLabel;
+
+  /// No description provided for @goToSignUpLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Sign up'**
+  String get goToSignUpLabel;
+
+  /// No description provided for @goToLoginLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Log in'**
+  String get goToLoginLabel;
+
+  /// No description provided for @authErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Check your details and try again.'**
+  String get authErrorGeneric;
+
+  /// Section heading on the settings screen for login/logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountSectionTitle;
+
+  /// No description provided for @logoutLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Out'**
+  String get logoutLabel;
+
+  /// No description provided for @notLoggedInMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Not logged in'**
+  String get notLoggedInMessage;
+
+  /// Heading above the review list on the movie detail screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get reviewsSectionTitle;
+
+  /// No description provided for @writeReviewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a Review'**
+  String get writeReviewLabel;
+
+  /// No description provided for @writeReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your review'**
+  String get writeReviewTitle;
+
+  /// No description provided for @reviewTextHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What did you think of this movie?'**
+  String get reviewTextHint;
+
+  /// No description provided for @submitReviewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submitReviewLabel;
+
+  /// No description provided for @noReviewsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No reviews yet. Be the first to write one!'**
+  String get noReviewsYet;
+
+  /// Button on the startup auth screen to skip login and browse without an account.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as guest'**
+  String get continueAsGuestLabel;
 }
 
 class _AppLocalizationsDelegate

@@ -6,7 +6,9 @@ import '../../core/constants/app_dimens.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/localization/l10n/generated/app_localizations.dart';
 import '../../core/localization/locale_provider.dart';
+import '../../core/routing/app_router.dart';
 import '../../core/theme/app_theme.dart';
+import '../../viewmodels/auth_viewmodel.dart';
 
 /// Theme (light/dark/system) and language (TR/EN) settings. Both providers
 /// (`themeModeProvider`, `localeProvider`) already drive `MoodflixApp`, so
@@ -19,12 +21,34 @@ class SettingsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final themeMode = ref.watch(themeModeProvider);
     final locale = ref.watch(localeProvider);
+    final currentUser = ref.watch(authStateProvider).valueOrNull;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsScreenTitle)),
       body: ListView(
         padding: const EdgeInsets.all(AppDimens.spaceM),
         children: [
+          Text(l10n.accountSectionTitle, style: AppTextStyles.title),
+          const SizedBox(height: AppDimens.spaceS),
+          Card(
+            margin: EdgeInsets.zero,
+            child: ListTile(
+              leading: const Icon(Icons.person_outline),
+              title: Text(currentUser?.email ?? l10n.notLoggedInMessage),
+              trailing: currentUser != null
+                  ? TextButton(
+                      onPressed: () =>
+                          ref.read(authViewModelProvider.notifier).signOut(),
+                      child: Text(l10n.logoutLabel),
+                    )
+                  : TextButton(
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed(AppRoutes.login),
+                      child: Text(l10n.loginScreenTitle),
+                    ),
+            ),
+          ),
+          const SizedBox(height: AppDimens.spaceL),
           Text(l10n.themeSectionTitle, style: AppTextStyles.title),
           const SizedBox(height: AppDimens.spaceS),
           _OptionTile(

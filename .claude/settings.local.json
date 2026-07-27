@@ -20,7 +20,12 @@
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(list\\(d.keys\\(\\)\\)\\)\")",
       "Bash(firebase auth *)",
       "Bash(flutterfire configure *)",
-      "Bash(firebase deploy *)"
+      "Bash(firebase deploy *)",
+      "Bash(grep -iE \"^\\\\.env$|firebase_options|google-services|GoogleService-Info\")",
+      "Bash(git check-ignore *)",
+      "Bash(grep -n \"^  0:00\\\\|Error\\\\|EXCEPTION\\\\|FAILED\\\\|Warning\" /dev/null; echo done)",
+      "Read(//dev/**)",
+      "Bash(git add *)"
     ],
     "additionalDirectories": [
       "/Users/mucahit/Desktop/moodflix",

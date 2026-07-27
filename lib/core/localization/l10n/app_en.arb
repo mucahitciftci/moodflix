@@ -205,5 +205,42 @@
   },
 
   "languageTr": "Turkish",
-  "languageEn": "English"
+  "languageEn": "English",
+
+  "loginScreenTitle": "Log In",
+  "signUpScreenTitle": "Sign Up",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "displayNameLabel": "Your name",
+  "forgotPasswordLabel": "Forgot password?",
+  "sendResetLinkLabel": "Send",
+  "resetLinkSentMessage": "Password reset link sent to your email.",
+  "cancelLabel": "Cancel",
+  "goToSignUpLabel": "Don't have an account? Sign up",
+  "goToLoginLabel": "Already have an account? Log in",
+  "authErrorGeneric": "Something went wrong. Check your details and try again.",
+
+  "accountSectionTitle": "Account",
+  "@accountSectionTitle": {
+    "description": "Section heading on the settings screen for login/logout."
+  },
+
+  "logoutLabel": "Log Out",
+  "notLoggedInMessage": "Not logged in",
+
+  "reviewsSectionTitle": "Reviews",
+  "@reviewsSectionTitle": {
+    "description": "Heading above the review list on the movie detail screen."
+  },
+
+  "writeReviewLabel": "Write a Review",
+  "writeReviewTitle": "Write your review",
+  "reviewTextHint": "What did you think of this movie?",
+  "submitReviewLabel": "Submit",
+  "noReviewsYet": "No reviews yet. Be the first to write one!",
+
+  "continueAsGuestLabel": "Continue as guest",
+  "@continueAsGuestLabel": {
+    "description": "Button on the startup auth screen to skip login and browse without an account."
+  }
 }

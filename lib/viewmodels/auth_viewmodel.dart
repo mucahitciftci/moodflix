@@ -56,3 +56,19 @@ class AuthViewModel extends AsyncNotifier<void> {
 final authViewModelProvider = AsyncNotifierProvider<AuthViewModel, void>(
   AuthViewModel.new,
 );
+
+/// Whether the user chose "continue as guest" on the startup auth gate
+/// (`AuthGateScreen`) instead of signing in. Deliberately in-memory only
+/// (resets on relaunch) — each fresh app open re-offers the choice, and a
+/// user who signed in stays in via Firebase's own persisted session
+/// regardless of this flag.
+class GuestModeNotifier extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  void continueAsGuest() => state = true;
+}
+
+final guestModeProvider = NotifierProvider<GuestModeNotifier, bool>(
+  GuestModeNotifier.new,
+);

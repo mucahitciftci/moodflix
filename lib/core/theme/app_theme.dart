@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../services/local_cache_service.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_dimens.dart';
 import '../constants/app_text_styles.dart';
@@ -92,18 +93,32 @@ abstract final class AppTheme {
   }
 }
 
-/// Manages the app-wide [ThemeMode] (light/dark/system). Persistence to
-/// local storage is wired in from the settings feature once
-/// `LocalCacheService` exists.
+/// Manages the app-wide [ThemeMode] (light/dark/system), persisted to Hive
+/// so it survives app restarts and sign in/out — this preference is
+/// device-local and has nothing to do with which account (if any) is
+/// signed in.
 class ThemeModeNotifier extends Notifier<ThemeMode> {
   @override
-  ThemeMode build() => ThemeMode.system;
+  ThemeMode build() {
+    final saved = ref.read(localCacheServiceProvider).getThemeMode();
+    return _parse(saved) ?? ThemeMode.system;
+  }
 
-  void setThemeMode(ThemeMode mode) => state = mode;
+  void setThemeMode(ThemeMode mode) {
+    state = mode;
+    ref.read(localCacheServiceProvider).setThemeMode(mode.name);
+  }
 
   void toggleLightDark() {
-    state = state == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
+    setThemeMode(state == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark);
   }
+
+  ThemeMode? _parse(String? value) => switch (value) {
+        'light' => ThemeMode.light,
+        'dark' => ThemeMode.dark,
+        'system' => ThemeMode.system,
+        _ => null,
+      };
 }
 
 final themeModeProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(

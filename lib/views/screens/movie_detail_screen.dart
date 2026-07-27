@@ -9,12 +9,17 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_dimens.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/localization/l10n/generated/app_localizations.dart';
+import '../../core/routing/app_router.dart';
 import '../../models/movie_model.dart';
 import '../../services/connectivity_service.dart';
+import '../../viewmodels/auth_viewmodel.dart';
 import '../../viewmodels/favorites_viewmodel.dart';
 import '../../viewmodels/movie_detail_viewmodel.dart';
+import '../../viewmodels/review_viewmodel.dart';
 import '../widgets/app_bar_home_leading.dart';
 import '../widgets/movie_category_badges.dart';
+import '../widgets/review_composer_sheet.dart';
+import '../widgets/review_tile.dart';
 
 /// Movie detail screen: poster, rating, overview, trailer (YouTube, live
 /// connectivity required), favorite toggle and share. [movie] is the data
@@ -36,6 +41,7 @@ class MovieDetailScreen extends ConsumerWidget {
     final overview = detailAsync.valueOrNull?.overview ?? movie.overview;
     final detailGenreIds = detailAsync.valueOrNull?.genreIds ?? const [];
     final genreIds = detailGenreIds.isNotEmpty ? detailGenreIds : movie.genreIds;
+    final reviewsAsync = ref.watch(movieReviewsProvider(movie.id));
 
     return Scaffold(
       appBar: AppBar(
@@ -119,6 +125,45 @@ class MovieDetailScreen extends ConsumerWidget {
                   _TrailerSection(
                     trailerKey: trailerKey,
                     isLoadingDetails: detailAsync.isLoading,
+                  ),
+                  const SizedBox(height: AppDimens.spaceL),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(l10n.reviewsSectionTitle, style: AppTextStyles.title),
+                      TextButton.icon(
+                        icon: const Icon(Icons.edit_outlined),
+                        label: Text(l10n.writeReviewLabel),
+                        onPressed: () {
+                          final user = ref.read(authStateProvider).valueOrNull;
+                          if (user == null) {
+                            Navigator.of(context).pushNamed(AppRoutes.login);
+                            return;
+                          }
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (_) => ReviewComposerSheet(movieId: movie.id),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppDimens.spaceS),
+                  reviewsAsync.when(
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (error, _) => Text(l10n.errorGeneric),
+                    data: (reviews) {
+                      if (reviews.isEmpty) {
+                        return Text(l10n.noReviewsYet, style: AppTextStyles.body);
+                      }
+                      return Column(
+                        children: [
+                          for (final review in reviews) ReviewTile(review: review),
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),

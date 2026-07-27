@@ -189,4 +189,71 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageEn => 'English';
+
+  @override
+  String get loginScreenTitle => 'Log In';
+
+  @override
+  String get signUpScreenTitle => 'Sign Up';
+
+  @override
+  String get emailLabel => 'Email';
+
+  @override
+  String get passwordLabel => 'Password';
+
+  @override
+  String get displayNameLabel => 'Your name';
+
+  @override
+  String get forgotPasswordLabel => 'Forgot password?';
+
+  @override
+  String get sendResetLinkLabel => 'Send';
+
+  @override
+  String get resetLinkSentMessage => 'Password reset link sent to your email.';
+
+  @override
+  String get cancelLabel => 'Cancel';
+
+  @override
+  String get goToSignUpLabel => 'Don\'t have an account? Sign up';
+
+  @override
+  String get goToLoginLabel => 'Already have an account? Log in';
+
+  @override
+  String get authErrorGeneric =>
+      'Something went wrong. Check your details and try again.';
+
+  @override
+  String get accountSectionTitle => 'Account';
+
+  @override
+  String get logoutLabel => 'Log Out';
+
+  @override
+  String get notLoggedInMessage => 'Not logged in';
+
+  @override
+  String get reviewsSectionTitle => 'Reviews';
+
+  @override
+  String get writeReviewLabel => 'Write a Review';
+
+  @override
+  String get writeReviewTitle => 'Write your review';
+
+  @override
+  String get reviewTextHint => 'What did you think of this movie?';
+
+  @override
+  String get submitReviewLabel => 'Submit';
+
+  @override
+  String get noReviewsYet => 'No reviews yet. Be the first to write one!';
+
+  @override
+  String get continueAsGuestLabel => 'Continue as guest';
 }

@@ -187,4 +187,72 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get languageEn => 'İngilizce';
+
+  @override
+  String get loginScreenTitle => 'Giriş Yap';
+
+  @override
+  String get signUpScreenTitle => 'Kayıt Ol';
+
+  @override
+  String get emailLabel => 'E-posta';
+
+  @override
+  String get passwordLabel => 'Şifre';
+
+  @override
+  String get displayNameLabel => 'Adın';
+
+  @override
+  String get forgotPasswordLabel => 'Şifremi unuttum';
+
+  @override
+  String get sendResetLinkLabel => 'Gönder';
+
+  @override
+  String get resetLinkSentMessage =>
+      'Şifre sıfırlama bağlantısı e-postana gönderildi.';
+
+  @override
+  String get cancelLabel => 'Vazgeç';
+
+  @override
+  String get goToSignUpLabel => 'Hesabın yok mu? Kayıt ol';
+
+  @override
+  String get goToLoginLabel => 'Zaten hesabın var mı? Giriş yap';
+
+  @override
+  String get authErrorGeneric =>
+      'Bir şeyler ters gitti. Bilgilerini kontrol edip tekrar dene.';
+
+  @override
+  String get accountSectionTitle => 'Hesap';
+
+  @override
+  String get logoutLabel => 'Çıkış Yap';
+
+  @override
+  String get notLoggedInMessage => 'Giriş yapılmadı';
+
+  @override
+  String get reviewsSectionTitle => 'İncelemeler';
+
+  @override
+  String get writeReviewLabel => 'İnceleme Yaz';
+
+  @override
+  String get writeReviewTitle => 'İncelemeni yaz';
+
+  @override
+  String get reviewTextHint => 'Bu film hakkında ne düşünüyorsun?';
+
+  @override
+  String get submitReviewLabel => 'Gönder';
+
+  @override
+  String get noReviewsYet => 'Henüz inceleme yok. İlk incelemeyi sen yaz!';
+
+  @override
+  String get continueAsGuestLabel => 'Misafir olarak devam et';
 }
