@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter --version)",
+      "Bash(find /Users/mucahit/Desktop/moodflix/lib /Users/mucahit/Desktop/moodflix/test -type d | sort; echo \"---\"; find /Users/mucahit/Desktop/moodflix -maxdepth 1 -name \"*.md\"; echo \"---env\\(masked\\)---\"; sed 's/=.*/=***/' /Users/mucahit/Desktop/moodflix/.env)",
+      "Bash(flutter pub *)",
+      "Bash(flutter analyze *)",
+      "Bash(flutter test *)",
+      "Bash(flutter run *)",
+      "Bash(mkdir -p /Users/mucahit/.claude/projects/-Users-mucahit-Desktop-moodflix/memory/)",
+      "Bash(firebase --version)",
+      "Bash(dart pub *)",
+      "Bash(firebase login:list)",
+      "Bash(firebase projects:list)",
+      "Bash(firebase projects:create moodflix-app --display-name \"Moodflix\")",
+      "Bash(firebase firestore:databases:create '\\(default\\)' --project moodflix-app --location eur3 --type firestore-native)",
+      "Bash(firebase firestore:databases:create --help)",
+      "Bash(firebase firestore:databases:create '\\(default\\)' --project moodflix-app --location eur3)",
+      "Bash(firebase --help)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(list\\(d.keys\\(\\)\\)\\)\")",
+      "Bash(firebase auth *)",
+      "Bash(flutterfire configure *)",
+      "Bash(firebase deploy *)"
+    ],
+    "additionalDirectories": [
+      "/Users/mucahit/Desktop/moodflix",
+      "/Users/mucahit/.claude/projects/-Users-mucahit-Desktop-moodflix"
+    ]
+  }
+}

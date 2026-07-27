@@ -1,0 +1,28 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Reviews are public to read (no login needed to browse what others
+    // wrote); writing requires being signed in and writing as yourself.
+    // Reviews are immutable once posted (no update) — delete + re-add is
+    // the only way to change one, kept simple for the MVP.
+    match /reviews/{reviewId} {
+      allow read: if true;
+
+      allow create: if request.auth != null
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.movieId is int
+                    && request.resource.data.rating is number
+                    && request.resource.data.rating >= 1
+                    && request.resource.data.rating <= 5
+                    && request.resource.data.text is string
+                    && request.resource.data.text.size() > 0
+                    && request.resource.data.text.size() <= 2000;
+
+      allow update: if false;
+
+      allow delete: if request.auth != null
+                    && request.auth.uid == resource.data.userId;
+    }
+  }
+}

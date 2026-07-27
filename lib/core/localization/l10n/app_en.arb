@@ -1,0 +1,209 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Moodflix",
+  "@appTitle": {
+    "description": "The application name, shown as the OS task title."
+  },
+
+  "moodMindBenderTitle": "Mind Bender",
+  "@moodMindBenderTitle": {
+    "description": "Mood: mind-bending / thought-provoking films (mystery, sci-fi, thriller)."
+  },
+
+  "moodNostalgiaTitle": "Nostalgia",
+  "@moodNostalgiaTitle": {
+    "description": "Mood: older, nostalgic drama/family/adventure titles."
+  },
+
+  "moodThrillerTitle": "Thriller",
+  "@moodThrillerTitle": {
+    "description": "Mood: thriller/crime titles."
+  },
+
+  "moodNetflixTitle": "Netflix Movies",
+  "@moodNetflixTitle": {
+    "description": "Mood: popular titles currently on Netflix."
+  },
+
+  "emptyMovies": "No movies found for this mood.",
+  "@emptyMovies": {
+    "description": "Shown on the discovery screen when a mood's first page comes back empty."
+  },
+
+  "errorGeneric": "Something went wrong. Please try again.",
+  "@errorGeneric": {
+    "description": "Generic fallback error message shown when a network call fails."
+  },
+
+  "myListsScreenTitle": "My Lists",
+  "@myListsScreenTitle": {
+    "description": "Title of the screen combining the watchlist and favorites tabs."
+  },
+
+  "watchlistTabLabel": "Watchlist",
+  "@watchlistTabLabel": {
+    "description": "Tab label for the user's watchlist (movies swiped right)."
+  },
+
+  "favoritesTabLabel": "Favorites",
+  "@favoritesTabLabel": {
+    "description": "Tab label for the user's favorites (movies favorited from the detail screen)."
+  },
+
+  "emptyWatchlist": "You haven't added anything to your watchlist yet.",
+  "@emptyWatchlist": {
+    "description": "Shown when the watchlist tab has no movies."
+  },
+
+  "emptyFavorites": "You haven't added any favorites yet.",
+  "@emptyFavorites": {
+    "description": "Shown when the favorites tab has no movies."
+  },
+
+  "removeFromListTooltip": "Remove",
+  "@removeFromListTooltip": {
+    "description": "Tooltip/label for the remove button on a saved movie row."
+  },
+
+  "addToFavoritesTooltip": "Add to favorites",
+  "@addToFavoritesTooltip": {
+    "description": "Tooltip for the favorite button on the detail screen, shown when not yet favorited."
+  },
+
+  "removeFromFavoritesTooltip": "Remove from favorites",
+  "@removeFromFavoritesTooltip": {
+    "description": "Tooltip for the favorite button on the detail screen, shown when already favorited."
+  },
+
+  "shareTooltip": "Send to a friend",
+  "@shareTooltip": {
+    "description": "Tooltip for the share button on the detail screen."
+  },
+
+  "shareMessage": "Check out {title}: {url}",
+  "@shareMessage": {
+    "description": "Text shared via share_plus when the user taps the share button.",
+    "placeholders": {
+      "title": {"type": "String"},
+      "url": {"type": "String"}
+    }
+  },
+
+  "trailerSectionTitle": "Trailer",
+  "@trailerSectionTitle": {
+    "description": "Heading above the trailer player/placeholder on the detail screen."
+  },
+
+  "trailerRequiresInternet": "You need an internet connection to watch the trailer.",
+  "@trailerRequiresInternet": {
+    "description": "Shown instead of the trailer player when the device is offline."
+  },
+
+  "trailerUnavailable": "No trailer available for this movie.",
+  "@trailerUnavailable": {
+    "description": "Shown when the movie has no YouTube trailer on TMDB."
+  },
+
+  "howToBrowseTitle": "How would you like to find movies?",
+  "@howToBrowseTitle": {
+    "description": "Heading on the first screen, asking mood-based vs category-based browsing."
+  },
+
+  "browseByMoodLabel": "By Mood",
+  "@browseByMoodLabel": {
+    "description": "Option to browse via the curated mood cards (Mind Bender, Nostalgia, ...)."
+  },
+
+  "browseByMoodSubtitle": "Get picks that match how you feel",
+  "@browseByMoodSubtitle": {
+    "description": "Subtitle under the 'By Mood' browse option."
+  },
+
+  "browseByCategoryLabel": "By Category",
+  "@browseByCategoryLabel": {
+    "description": "Option to browse via the full TMDB genre list."
+  },
+
+  "browseByCategorySubtitle": "Pick a genre and browse everything in it",
+  "@browseByCategorySubtitle": {
+    "description": "Subtitle under the 'By Category' browse option."
+  },
+
+  "moodSelectionTitle": "Choose a Mood",
+  "@moodSelectionTitle": {
+    "description": "App bar title of the mood selection screen (no longer the app's home screen)."
+  },
+
+  "categorySelectionTitle": "Categories",
+  "@categorySelectionTitle": {
+    "description": "App bar title of the category (genre) selection screen."
+  },
+
+  "genreAction": "Action",
+  "genreAdventure": "Adventure",
+  "genreAnimation": "Animation",
+  "genreComedy": "Comedy",
+  "genreCrime": "Crime",
+  "genreDocumentary": "Documentary",
+  "genreDrama": "Drama",
+  "genreFamily": "Family",
+  "genreFantasy": "Fantasy",
+  "genreHistory": "History",
+  "genreHorror": "Horror",
+  "genreMusic": "Music",
+  "genreMystery": "Mystery",
+  "genreRomance": "Romance",
+  "genreScienceFiction": "Science Fiction",
+  "genreTvMovie": "TV Movie",
+  "genreThriller": "Thriller",
+  "genreWar": "War",
+  "genreWestern": "Western",
+
+  "searchHint": "Search for a movie...",
+  "@searchHint": {
+    "description": "Placeholder text in the search bar/field."
+  },
+
+  "searchPrompt": "Start typing a movie name",
+  "@searchPrompt": {
+    "description": "Shown on the search screen before the user has typed anything."
+  },
+
+  "searchNoResults": "No results found",
+  "@searchNoResults": {
+    "description": "Shown on the search screen when the query matches no movies."
+  },
+
+  "homeTooltip": "Back to home",
+  "@homeTooltip": {
+    "description": "Tooltip for the home-shortcut icon on screens deep in the navigation stack."
+  },
+
+  "undoSwipeTooltip": "Undo",
+  "@undoSwipeTooltip": {
+    "description": "Tooltip for the undo-last-swipe button on the discovery card stack."
+  },
+
+  "settingsScreenTitle": "Settings",
+  "@settingsScreenTitle": {
+    "description": "Title of the settings screen, and tooltip for its entry icon."
+  },
+
+  "themeSectionTitle": "Theme",
+  "@themeSectionTitle": {
+    "description": "Section heading above the light/dark/system theme options."
+  },
+
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+
+  "languageSectionTitle": "Language",
+  "@languageSectionTitle": {
+    "description": "Section heading above the TR/EN language options."
+  },
+
+  "languageTr": "Turkish",
+  "languageEn": "English"
+}

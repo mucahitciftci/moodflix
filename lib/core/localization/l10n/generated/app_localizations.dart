@@ -1,0 +1,488 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations_en.dart';
+import 'app_localizations_tr.dart';
+
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'generated/app_localizations.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('tr'),
+  ];
+
+  /// The application name, shown as the OS task title.
+  ///
+  /// In en, this message translates to:
+  /// **'Moodflix'**
+  String get appTitle;
+
+  /// Mood: mind-bending / thought-provoking films (mystery, sci-fi, thriller).
+  ///
+  /// In en, this message translates to:
+  /// **'Mind Bender'**
+  String get moodMindBenderTitle;
+
+  /// Mood: older, nostalgic drama/family/adventure titles.
+  ///
+  /// In en, this message translates to:
+  /// **'Nostalgia'**
+  String get moodNostalgiaTitle;
+
+  /// Mood: thriller/crime titles.
+  ///
+  /// In en, this message translates to:
+  /// **'Thriller'**
+  String get moodThrillerTitle;
+
+  /// Mood: popular titles currently on Netflix.
+  ///
+  /// In en, this message translates to:
+  /// **'Netflix Movies'**
+  String get moodNetflixTitle;
+
+  /// Shown on the discovery screen when a mood's first page comes back empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No movies found for this mood.'**
+  String get emptyMovies;
+
+  /// Generic fallback error message shown when a network call fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get errorGeneric;
+
+  /// Title of the screen combining the watchlist and favorites tabs.
+  ///
+  /// In en, this message translates to:
+  /// **'My Lists'**
+  String get myListsScreenTitle;
+
+  /// Tab label for the user's watchlist (movies swiped right).
+  ///
+  /// In en, this message translates to:
+  /// **'Watchlist'**
+  String get watchlistTabLabel;
+
+  /// Tab label for the user's favorites (movies favorited from the detail screen).
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get favoritesTabLabel;
+
+  /// Shown when the watchlist tab has no movies.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t added anything to your watchlist yet.'**
+  String get emptyWatchlist;
+
+  /// Shown when the favorites tab has no movies.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t added any favorites yet.'**
+  String get emptyFavorites;
+
+  /// Tooltip/label for the remove button on a saved movie row.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeFromListTooltip;
+
+  /// Tooltip for the favorite button on the detail screen, shown when not yet favorited.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to favorites'**
+  String get addToFavoritesTooltip;
+
+  /// Tooltip for the favorite button on the detail screen, shown when already favorited.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from favorites'**
+  String get removeFromFavoritesTooltip;
+
+  /// Tooltip for the share button on the detail screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Send to a friend'**
+  String get shareTooltip;
+
+  /// Text shared via share_plus when the user taps the share button.
+  ///
+  /// In en, this message translates to:
+  /// **'Check out {title}: {url}'**
+  String shareMessage(String title, String url);
+
+  /// Heading above the trailer player/placeholder on the detail screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Trailer'**
+  String get trailerSectionTitle;
+
+  /// Shown instead of the trailer player when the device is offline.
+  ///
+  /// In en, this message translates to:
+  /// **'You need an internet connection to watch the trailer.'**
+  String get trailerRequiresInternet;
+
+  /// Shown when the movie has no YouTube trailer on TMDB.
+  ///
+  /// In en, this message translates to:
+  /// **'No trailer available for this movie.'**
+  String get trailerUnavailable;
+
+  /// Heading on the first screen, asking mood-based vs category-based browsing.
+  ///
+  /// In en, this message translates to:
+  /// **'How would you like to find movies?'**
+  String get howToBrowseTitle;
+
+  /// Option to browse via the curated mood cards (Mind Bender, Nostalgia, ...).
+  ///
+  /// In en, this message translates to:
+  /// **'By Mood'**
+  String get browseByMoodLabel;
+
+  /// Subtitle under the 'By Mood' browse option.
+  ///
+  /// In en, this message translates to:
+  /// **'Get picks that match how you feel'**
+  String get browseByMoodSubtitle;
+
+  /// Option to browse via the full TMDB genre list.
+  ///
+  /// In en, this message translates to:
+  /// **'By Category'**
+  String get browseByCategoryLabel;
+
+  /// Subtitle under the 'By Category' browse option.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a genre and browse everything in it'**
+  String get browseByCategorySubtitle;
+
+  /// App bar title of the mood selection screen (no longer the app's home screen).
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a Mood'**
+  String get moodSelectionTitle;
+
+  /// App bar title of the category (genre) selection screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get categorySelectionTitle;
+
+  /// No description provided for @genreAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Action'**
+  String get genreAction;
+
+  /// No description provided for @genreAdventure.
+  ///
+  /// In en, this message translates to:
+  /// **'Adventure'**
+  String get genreAdventure;
+
+  /// No description provided for @genreAnimation.
+  ///
+  /// In en, this message translates to:
+  /// **'Animation'**
+  String get genreAnimation;
+
+  /// No description provided for @genreComedy.
+  ///
+  /// In en, this message translates to:
+  /// **'Comedy'**
+  String get genreComedy;
+
+  /// No description provided for @genreCrime.
+  ///
+  /// In en, this message translates to:
+  /// **'Crime'**
+  String get genreCrime;
+
+  /// No description provided for @genreDocumentary.
+  ///
+  /// In en, this message translates to:
+  /// **'Documentary'**
+  String get genreDocumentary;
+
+  /// No description provided for @genreDrama.
+  ///
+  /// In en, this message translates to:
+  /// **'Drama'**
+  String get genreDrama;
+
+  /// No description provided for @genreFamily.
+  ///
+  /// In en, this message translates to:
+  /// **'Family'**
+  String get genreFamily;
+
+  /// No description provided for @genreFantasy.
+  ///
+  /// In en, this message translates to:
+  /// **'Fantasy'**
+  String get genreFantasy;
+
+  /// No description provided for @genreHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get genreHistory;
+
+  /// No description provided for @genreHorror.
+  ///
+  /// In en, this message translates to:
+  /// **'Horror'**
+  String get genreHorror;
+
+  /// No description provided for @genreMusic.
+  ///
+  /// In en, this message translates to:
+  /// **'Music'**
+  String get genreMusic;
+
+  /// No description provided for @genreMystery.
+  ///
+  /// In en, this message translates to:
+  /// **'Mystery'**
+  String get genreMystery;
+
+  /// No description provided for @genreRomance.
+  ///
+  /// In en, this message translates to:
+  /// **'Romance'**
+  String get genreRomance;
+
+  /// No description provided for @genreScienceFiction.
+  ///
+  /// In en, this message translates to:
+  /// **'Science Fiction'**
+  String get genreScienceFiction;
+
+  /// No description provided for @genreTvMovie.
+  ///
+  /// In en, this message translates to:
+  /// **'TV Movie'**
+  String get genreTvMovie;
+
+  /// No description provided for @genreThriller.
+  ///
+  /// In en, this message translates to:
+  /// **'Thriller'**
+  String get genreThriller;
+
+  /// No description provided for @genreWar.
+  ///
+  /// In en, this message translates to:
+  /// **'War'**
+  String get genreWar;
+
+  /// No description provided for @genreWestern.
+  ///
+  /// In en, this message translates to:
+  /// **'Western'**
+  String get genreWestern;
+
+  /// Placeholder text in the search bar/field.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for a movie...'**
+  String get searchHint;
+
+  /// Shown on the search screen before the user has typed anything.
+  ///
+  /// In en, this message translates to:
+  /// **'Start typing a movie name'**
+  String get searchPrompt;
+
+  /// Shown on the search screen when the query matches no movies.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get searchNoResults;
+
+  /// Tooltip for the home-shortcut icon on screens deep in the navigation stack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to home'**
+  String get homeTooltip;
+
+  /// Tooltip for the undo-last-swipe button on the discovery card stack.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undoSwipeTooltip;
+
+  /// Title of the settings screen, and tooltip for its entry icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsScreenTitle;
+
+  /// Section heading above the light/dark/system theme options.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get themeSectionTitle;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeSystem;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// Section heading above the TR/EN language options.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageSectionTitle;
+
+  /// No description provided for @languageTr.
+  ///
+  /// In en, this message translates to:
+  /// **'Turkish'**
+  String get languageTr;
+
+  /// No description provided for @languageEn.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEn;
+}
+
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) =>
+      <String>['en', 'tr'].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'en':
+      return AppLocalizationsEn();
+    case 'tr':
+      return AppLocalizationsTr();
+  }
+
+  throw FlutterError(
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
+}
