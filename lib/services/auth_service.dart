@@ -10,7 +10,11 @@ class AuthService {
 
   final FirebaseAuth _auth;
 
-  Stream<User?> get authStateChanges => _auth.authStateChanges();
+  /// `userChanges()` rather than `authStateChanges()` — the latter only
+  /// fires on sign-in/sign-out, so a display name update wouldn't be
+  /// reflected anywhere the UI reads it (e.g. the personalized greeting on
+  /// `BrowseModeScreen`) until the next full sign-in.
+  Stream<User?> get userChanges => _auth.userChanges();
 
   User? get currentUser => _auth.currentUser;
 
@@ -34,6 +38,37 @@ class AuthService {
 
   Future<void> sendPasswordResetEmail(String email) {
     return _auth.sendPasswordResetEmail(email: email);
+  }
+
+  Future<void> updateDisplayName(String displayName) async {
+    await _auth.currentUser?.updateDisplayName(displayName);
+  }
+
+  /// Sends a confirmation link to [newEmail] — the address only actually
+  /// changes once the user clicks it (`verifyBeforeUpdateEmail`, the
+  /// current recommended API; the old `updateEmail` is deprecated and
+  /// increasingly rejected by Firebase for security reasons).
+  Future<void> updateEmail(String newEmail) async {
+    await _auth.currentUser?.verifyBeforeUpdateEmail(newEmail);
+  }
+
+  /// Password changes require a recent sign-in, so this re-authenticates
+  /// with [currentPassword] first — without it, `updatePassword` almost
+  /// always fails with `requires-recent-login`.
+  Future<void> updatePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    final user = _auth.currentUser;
+    final email = user?.email;
+    if (user == null || email == null) return;
+
+    final credential = EmailAuthProvider.credential(
+      email: email,
+      password: currentPassword,
+    );
+    await user.reauthenticateWithCredential(credential);
+    await user.updatePassword(newPassword);
   }
 }
 

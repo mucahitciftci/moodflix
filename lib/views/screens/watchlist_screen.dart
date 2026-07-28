@@ -6,6 +6,7 @@ import '../../core/localization/l10n/generated/app_localizations.dart';
 import '../../models/movie_model.dart';
 import '../../viewmodels/favorites_viewmodel.dart';
 import '../../viewmodels/watchlist_viewmodel.dart';
+import '../widgets/empty_state_view.dart';
 import '../widgets/saved_movie_tile.dart';
 
 /// Combines the user's two local movie lists — "İzleyeceklerim" (watchlist,
@@ -88,7 +89,7 @@ class _SavedMovieList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (movies.isEmpty) {
-      return Center(child: Text(emptyLabel));
+      return EmptyStateView(message: emptyLabel);
     }
 
     return ListView.separated(

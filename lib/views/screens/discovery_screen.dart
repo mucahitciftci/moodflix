@@ -11,6 +11,7 @@ import '../../models/discovery_source.dart';
 import '../../viewmodels/movie_discovery_viewmodel.dart';
 import '../../viewmodels/watchlist_viewmodel.dart';
 import '../widgets/app_bar_home_leading.dart';
+import '../widgets/empty_state_view.dart';
 import '../widgets/swipeable_card_stack.dart';
 
 /// Discovery screen for the [DiscoverySource] (a mood or a genre) selected
@@ -45,7 +46,7 @@ class DiscoveryScreen extends ConsumerWidget {
           error: (error, _) => Center(child: Text(l10n.errorGeneric)),
           data: (state) {
             if (state.movies.isEmpty) {
-              return Center(child: Text(l10n.emptyMovies));
+              return EmptyStateView(message: l10n.emptyMovies);
             }
             return SwipeableCardStack(
               key: ValueKey(source.cacheKey),

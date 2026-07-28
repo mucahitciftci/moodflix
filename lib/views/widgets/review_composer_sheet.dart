@@ -11,9 +11,16 @@ import '../../viewmodels/review_viewmodel.dart';
 /// Shown via `showModalBottomSheet` from `MovieDetailScreen`, only once the
 /// caller has already confirmed the user is signed in.
 class ReviewComposerSheet extends ConsumerStatefulWidget {
-  const ReviewComposerSheet({super.key, required this.movieId});
+  const ReviewComposerSheet({
+    super.key,
+    required this.movieId,
+    required this.movieTitle,
+    this.moviePosterPath,
+  });
 
   final int movieId;
+  final String movieTitle;
+  final String? moviePosterPath;
 
   @override
   ConsumerState<ReviewComposerSheet> createState() =>
@@ -36,6 +43,8 @@ class _ReviewComposerSheetState extends ConsumerState<ReviewComposerSheet> {
 
     await ref.read(reviewViewModelProvider.notifier).submitReview(
           movieId: widget.movieId,
+          movieTitle: widget.movieTitle,
+          moviePosterPath: widget.moviePosterPath,
           rating: _rating.toDouble(),
           text: text,
         );

@@ -104,6 +104,12 @@ abstract class AppLocalizations {
   /// **'Moodflix'**
   String get appTitle;
 
+  /// Short tagline shown under the app name on the login/sign-up screens.
+  ///
+  /// In en, this message translates to:
+  /// **'Movies that match your mood'**
+  String get authTagline;
+
   /// Mood: mind-bending / thought-provoking films (mystery, sci-fi, thriller).
   ///
   /// In en, this message translates to:
@@ -404,10 +410,10 @@ abstract class AppLocalizations {
   /// **'Undo'**
   String get undoSwipeTooltip;
 
-  /// Title of the settings screen, and tooltip for its entry icon.
+  /// Title of the account/preferences screen, and tooltip for its entry icon.
   ///
   /// In en, this message translates to:
-  /// **'Settings'**
+  /// **'Menu'**
   String get settingsScreenTitle;
 
   /// Section heading above the light/dark/system theme options.
@@ -583,6 +589,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continue as guest'**
   String get continueAsGuestLabel;
+
+  /// Personalized variant of howToBrowseTitle, shown when signed in.
+  ///
+  /// In en, this message translates to:
+  /// **'How would you like to find movies, {name}?'**
+  String howToBrowseTitleWithName(String name);
+
+  /// No description provided for @changeUsernameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Username'**
+  String get changeUsernameLabel;
+
+  /// No description provided for @changeEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Email'**
+  String get changeEmailLabel;
+
+  /// No description provided for @changePasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get changePasswordLabel;
+
+  /// No description provided for @newEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New email'**
+  String get newEmailLabel;
+
+  /// No description provided for @currentPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get currentPasswordLabel;
+
+  /// No description provided for @newPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get newPasswordLabel;
+
+  /// No description provided for @saveLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveLabel;
+
+  /// No description provided for @usernameUpdatedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your username was updated.'**
+  String get usernameUpdatedMessage;
+
+  /// No description provided for @emailUpdateSentMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a confirmation link to your new email. It will change once you confirm it.'**
+  String get emailUpdateSentMessage;
+
+  /// No description provided for @passwordUpdatedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password was updated.'**
+  String get passwordUpdatedMessage;
+
+  /// Title of the screen for finding/following other users, and tooltip for its entry icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Social'**
+  String get socialScreenTitle;
+
+  /// No description provided for @searchTabLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchTabLabel;
+
+  /// No description provided for @followingTabLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Following'**
+  String get followingTabLabel;
+
+  /// No description provided for @searchUsersHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search users...'**
+  String get searchUsersHint;
+
+  /// No description provided for @noUsersFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No users found'**
+  String get noUsersFound;
+
+  /// No description provided for @noFollowingYet.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re not following anyone yet'**
+  String get noFollowingYet;
+
+  /// No description provided for @followButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow'**
+  String get followButtonLabel;
+
+  /// Shown on the follow button when already following someone; tapping it unfollows.
+  ///
+  /// In en, this message translates to:
+  /// **'Following'**
+  String get unfollowButtonLabel;
+
+  /// No description provided for @userHasNoReviewsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'This user hasn\'t written any reviews yet.'**
+  String get userHasNoReviewsYet;
+
+  /// No description provided for @likeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Like'**
+  String get likeTooltip;
+
+  /// No description provided for @commentsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get commentsTooltip;
+
+  /// No description provided for @commentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a comment...'**
+  String get commentHint;
+
+  /// No description provided for @noCommentsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments yet.'**
+  String get noCommentsYet;
+
+  /// Section heading on the settings screen for watchlist/favorites sharing visibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get privacySectionTitle;
+
+  /// List-sharing option: watchlist/favorites are not shared with anyone.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get listSharingOff;
+
+  /// List-sharing option: watchlist/favorites are visible to any signed-in user.
+  ///
+  /// In en, this message translates to:
+  /// **'Public'**
+  String get listSharingPublic;
+
+  /// List-sharing option: watchlist/favorites are visible only to people who follow you.
+  ///
+  /// In en, this message translates to:
+  /// **'Followers Only'**
+  String get listSharingFollowers;
+
+  /// Heading for another user's shared watchlist section on their profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Watchlist'**
+  String get theirWatchlistTitle;
+
+  /// Heading for another user's shared favorites section on their profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get theirFavoritesTitle;
+
+  /// No description provided for @emptySharedListMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing added yet.'**
+  String get emptySharedListMessage;
 }
 
 class _AppLocalizationsDelegate

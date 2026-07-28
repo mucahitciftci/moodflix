@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_dimens.dart';
 import '../../core/localization/l10n/generated/app_localizations.dart';
 import '../../core/routing/app_router.dart';
 import '../../viewmodels/auth_viewmodel.dart';
+import '../widgets/chameleon_mascot.dart';
 
 /// Email/password login — also the app's startup screen when no one is
 /// signed in (see `AuthGateScreen`), in which case a "continue as guest"
@@ -83,82 +85,110 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.loginScreenTitle)),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppDimens.spaceM),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: AppDimens.authFormMaxWidth),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(labelText: l10n.emailLabel),
-                ),
-                const SizedBox(height: AppDimens.spaceM),
-                TextField(
-                  controller: _passwordController,
-                  obscureText: _obscurePassword,
-                  decoration: InputDecoration(
-                    labelText: l10n.passwordLabel,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
+      body: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment.topCenter,
+            radius: 1.1,
+            colors: [
+              AppColors.primary.withValues(alpha: 0.16),
+              AppColors.primary.withValues(alpha: 0),
+            ],
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(AppDimens.spaceM),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: AppDimens.authFormMaxWidth),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const ChameleonMascot(
+                    size: AppDimens.iconXl * 2,
+                    effect: MascotEffect.colorShift,
+                  ),
+                  const SizedBox(height: AppDimens.spaceM),
+                  Text(
+                    l10n.appTitle,
+                    style: Theme.of(context).textTheme.displayLarge,
+                  ),
+                  const SizedBox(height: AppDimens.spaceXs),
+                  Text(
+                    l10n.authTagline,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: AppDimens.spaceL),
+                  TextField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(labelText: l10n.emailLabel),
+                  ),
+                  const SizedBox(height: AppDimens.spaceM),
+                  TextField(
+                    controller: _passwordController,
+                    obscureText: _obscurePassword,
+                    decoration: InputDecoration(
+                      labelText: l10n.passwordLabel,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                        ),
+                        onPressed: () =>
+                            setState(() => _obscurePassword = !_obscurePassword),
                       ),
-                      onPressed: () =>
-                          setState(() => _obscurePassword = !_obscurePassword),
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: _showForgotPasswordDialog,
-                    child: Text(l10n.forgotPasswordLabel),
-                  ),
-                ),
-                const SizedBox(height: AppDimens.spaceM),
-                if (authState.hasError)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: AppDimens.spaceM),
-                    child: Text(
-                      l10n.authErrorGeneric,
-                      style: TextStyle(color: Theme.of(context).colorScheme.error),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: _showForgotPasswordDialog,
+                      child: Text(l10n.forgotPasswordLabel),
                     ),
                   ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: authState.isLoading
-                        ? null
-                        : () => ref.read(authViewModelProvider.notifier).signIn(
-                              email: _emailController.text.trim(),
-                              password: _passwordController.text,
-                            ),
-                    child: authState.isLoading
-                        ? const SizedBox(
-                            width: AppDimens.iconM,
-                            height: AppDimens.iconM,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(l10n.loginScreenTitle),
+                  const SizedBox(height: AppDimens.spaceM),
+                  if (authState.hasError)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: AppDimens.spaceM),
+                      child: Text(
+                        l10n.authErrorGeneric,
+                        style: TextStyle(color: Theme.of(context).colorScheme.error),
+                      ),
+                    ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: authState.isLoading
+                          ? null
+                          : () => ref.read(authViewModelProvider.notifier).signIn(
+                                email: _emailController.text.trim(),
+                                password: _passwordController.text,
+                              ),
+                      child: authState.isLoading
+                          ? const SizedBox(
+                              width: AppDimens.iconM,
+                              height: AppDimens.iconM,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : Text(l10n.loginScreenTitle),
+                    ),
                   ),
-                ),
-                const SizedBox(height: AppDimens.spaceM),
-                TextButton(
-                  onPressed: () => Navigator.of(context).pushNamed(AppRoutes.signUp),
-                  child: Text(l10n.goToSignUpLabel),
-                ),
-                if (isStartupGate)
+                  const SizedBox(height: AppDimens.spaceM),
                   TextButton(
-                    onPressed: () =>
-                        ref.read(guestModeProvider.notifier).continueAsGuest(),
-                    child: Text(l10n.continueAsGuestLabel),
+                    onPressed: () => Navigator.of(context).pushNamed(AppRoutes.signUp),
+                    child: Text(l10n.goToSignUpLabel),
                   ),
-              ],
+                  if (isStartupGate)
+                    TextButton(
+                      onPressed: () =>
+                          ref.read(guestModeProvider.notifier).continueAsGuest(),
+                      child: Text(l10n.continueAsGuestLabel),
+                    ),
+                ],
+              ),
             ),
           ),
         ),

@@ -2,6 +2,21 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // Whether [viewerId] can see [ownerId]'s shared watchlist/favorites,
+    // per the owner's own `users/{ownerId}.listSharing` choice — 'public'
+    // (anyone signed in), 'followers' (only people who follow them, or the
+    // owner themself), or anything else (including the field being unset,
+    // i.e. sharing off) denies everyone.
+    function canViewSharedList(ownerId) {
+      let owner = get(/databases/$(database)/documents/users/$(ownerId)).data;
+      return owner.listSharing == 'public'
+        || (request.auth != null && request.auth.uid == ownerId)
+        || (owner.listSharing == 'followers'
+            && request.auth != null
+            && exists(/databases/$(database)/documents/follows/$(request.auth.uid + '_' + ownerId)));
+    }
+
     // Reviews are public to read (no login needed to browse what others
     // wrote); writing requires being signed in and writing as yourself.
     // Reviews are immutable once posted (no update) — delete + re-add is
@@ -23,6 +38,71 @@ service cloud.firestore {
 
       allow delete: if request.auth != null
                     && request.auth.uid == resource.data.userId;
+
+      // A like, doc-ID'd by the liking user's own uid — existence = liked.
+      // Public to read (for like counts); only the signed-in user can
+      // create/delete their own like doc.
+      match /likes/{userId} {
+        allow read: if true;
+        allow write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // A comment on this review. Public to read; creating requires being
+      // signed in and writing as yourself with a non-empty, bounded body.
+      // Immutable once posted, same as reviews — delete + re-add only.
+      match /comments/{commentId} {
+        allow read: if true;
+
+        allow create: if request.auth != null
+                      && request.resource.data.userId == request.auth.uid
+                      && request.resource.data.text is string
+                      && request.resource.data.text.size() > 0
+                      && request.resource.data.text.size() <= 500;
+
+        allow update: if false;
+
+        allow delete: if request.auth != null
+                      && request.auth.uid == resource.data.userId;
+      }
+    }
+
+    // Public profile data (currently just a display name), used for
+    // search/follow. Anyone can read (needed to search/browse profiles);
+    // only the profile's own owner can write it.
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId;
+
+      // Mirrors of the owner's local Hive watchlist/favorites, only ever
+      // written when they've turned list sharing on (see
+      // `ListSharingViewModel`). Visibility follows their own choice via
+      // `canViewSharedList`; only the owner can write their own copies.
+      match /watchlist/{movieId} {
+        allow read: if canViewSharedList(userId);
+        allow write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      match /favorites/{movieId} {
+        allow read: if canViewSharedList(userId);
+        allow write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // A follow relationship, doc-ID'd `{followerId}_{followingId}`. Follow
+    // counts/relationships aren't sensitive, so reads are public; writes
+    // must be the signed-in user acting as their own follower half, and
+    // you can't follow yourself.
+    match /follows/{followId} {
+      allow read: if true;
+
+      allow create: if request.auth != null
+                    && request.resource.data.followerId == request.auth.uid
+                    && request.resource.data.followingId != request.auth.uid;
+
+      allow update: if false;
+
+      allow delete: if request.auth != null
+                    && resource.data.followerId == request.auth.uid;
     }
   }
 }

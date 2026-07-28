@@ -8,11 +8,13 @@ import '../../core/localization/l10n/generated/app_localizations.dart';
 import '../../core/localization/locale_provider.dart';
 import '../../core/routing/app_router.dart';
 import '../../core/theme/app_theme.dart';
+import '../../models/app_user.dart';
 import '../../viewmodels/auth_viewmodel.dart';
+import '../../viewmodels/list_sharing_viewmodel.dart';
 
-/// Theme (light/dark/system) and language (TR/EN) settings. Both providers
-/// (`themeModeProvider`, `localeProvider`) already drive `MoodflixApp`, so
-/// this screen only needs to read/write them — no new state of its own.
+/// Account (login state, username/email/password changes), theme
+/// (light/dark/system) and language (TR/EN) — the app's "Menü" screen,
+/// reached from `BrowseModeScreen`'s account icon.
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
@@ -22,6 +24,9 @@ class SettingsScreen extends ConsumerWidget {
     final themeMode = ref.watch(themeModeProvider);
     final locale = ref.watch(localeProvider);
     final currentUser = ref.watch(authStateProvider).valueOrNull;
+    final myProfile = currentUser == null
+        ? null
+        : ref.watch(currentUserProfileProvider).valueOrNull;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsScreenTitle)),
@@ -32,22 +37,78 @@ class SettingsScreen extends ConsumerWidget {
           const SizedBox(height: AppDimens.spaceS),
           Card(
             margin: EdgeInsets.zero,
-            child: ListTile(
-              leading: const Icon(Icons.person_outline),
-              title: Text(currentUser?.email ?? l10n.notLoggedInMessage),
-              trailing: currentUser != null
-                  ? TextButton(
-                      onPressed: () =>
-                          ref.read(authViewModelProvider.notifier).signOut(),
-                      child: Text(l10n.logoutLabel),
-                    )
-                  : TextButton(
-                      onPressed: () =>
-                          Navigator.of(context).pushNamed(AppRoutes.login),
-                      child: Text(l10n.loginScreenTitle),
+            child: Column(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.person_outline),
+                  title: Text(currentUser?.email ?? l10n.notLoggedInMessage),
+                  trailing: currentUser != null
+                      ? TextButton(
+                          onPressed: () => ref
+                              .read(authViewModelProvider.notifier)
+                              .signOut(),
+                          child: Text(l10n.logoutLabel),
+                        )
+                      : TextButton(
+                          onPressed: () =>
+                              Navigator.of(context).pushNamed(AppRoutes.login),
+                          child: Text(l10n.loginScreenTitle),
+                        ),
+                ),
+                if (currentUser != null) ...[
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.badge_outlined),
+                    title: Text(l10n.changeUsernameLabel),
+                    onTap: () => _showChangeUsernameDialog(
+                      context,
+                      ref,
+                      currentUser.displayName,
                     ),
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.email_outlined),
+                    title: Text(l10n.changeEmailLabel),
+                    onTap: () => _showChangeEmailDialog(context, ref),
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: const Icon(Icons.lock_outline),
+                    title: Text(l10n.changePasswordLabel),
+                    onTap: () => _showChangePasswordDialog(context, ref),
+                  ),
+                ],
+              ],
             ),
           ),
+          if (currentUser != null) ...[
+            const SizedBox(height: AppDimens.spaceL),
+            Text(l10n.privacySectionTitle, style: AppTextStyles.title),
+            const SizedBox(height: AppDimens.spaceS),
+            _OptionTile(
+              label: l10n.listSharingOff,
+              selected: (myProfile?.listSharing ?? ListSharingVisibility.off) ==
+                  ListSharingVisibility.off,
+              onTap: () => ref
+                  .read(listSharingViewModelProvider.notifier)
+                  .setVisibility(ListSharingVisibility.off),
+            ),
+            _OptionTile(
+              label: l10n.listSharingPublic,
+              selected: myProfile?.listSharing == ListSharingVisibility.public,
+              onTap: () => ref
+                  .read(listSharingViewModelProvider.notifier)
+                  .setVisibility(ListSharingVisibility.public),
+            ),
+            _OptionTile(
+              label: l10n.listSharingFollowers,
+              selected: myProfile?.listSharing == ListSharingVisibility.followers,
+              onTap: () => ref
+                  .read(listSharingViewModelProvider.notifier)
+                  .setVisibility(ListSharingVisibility.followers),
+            ),
+          ],
           const SizedBox(height: AppDimens.spaceL),
           Text(l10n.themeSectionTitle, style: AppTextStyles.title),
           const SizedBox(height: AppDimens.spaceS),
@@ -91,6 +152,148 @@ class SettingsScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+Future<void> _showChangeUsernameDialog(
+  BuildContext context,
+  WidgetRef ref,
+  String? currentName,
+) async {
+  final l10n = AppLocalizations.of(context);
+  final controller = TextEditingController(text: currentName ?? '');
+
+  final newName = await showDialog<String>(
+    context: context,
+    builder: (dialogContext) => AlertDialog(
+      title: Text(l10n.changeUsernameLabel),
+      content: TextField(
+        controller: controller,
+        decoration: InputDecoration(labelText: l10n.displayNameLabel),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(dialogContext).pop(),
+          child: Text(l10n.cancelLabel),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(dialogContext).pop(controller.text.trim()),
+          child: Text(l10n.saveLabel),
+        ),
+      ],
+    ),
+  );
+  controller.dispose();
+
+  if (newName == null || newName.isEmpty || !context.mounted) return;
+  await ref.read(authViewModelProvider.notifier).updateDisplayName(newName);
+  if (!context.mounted) return;
+  final hasError = ref.read(authViewModelProvider).hasError;
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(hasError ? l10n.authErrorGeneric : l10n.usernameUpdatedMessage),
+    ),
+  );
+}
+
+Future<void> _showChangeEmailDialog(BuildContext context, WidgetRef ref) async {
+  final l10n = AppLocalizations.of(context);
+  final controller = TextEditingController();
+
+  final newEmail = await showDialog<String>(
+    context: context,
+    builder: (dialogContext) => AlertDialog(
+      title: Text(l10n.changeEmailLabel),
+      content: TextField(
+        controller: controller,
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(labelText: l10n.newEmailLabel),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(dialogContext).pop(),
+          child: Text(l10n.cancelLabel),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(dialogContext).pop(controller.text.trim()),
+          child: Text(l10n.saveLabel),
+        ),
+      ],
+    ),
+  );
+  controller.dispose();
+
+  if (newEmail == null || newEmail.isEmpty || !context.mounted) return;
+  await ref.read(authViewModelProvider.notifier).updateEmail(newEmail);
+  if (!context.mounted) return;
+  final hasError = ref.read(authViewModelProvider).hasError;
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(hasError ? l10n.authErrorGeneric : l10n.emailUpdateSentMessage),
+    ),
+  );
+}
+
+Future<void> _showChangePasswordDialog(BuildContext context, WidgetRef ref) async {
+  final l10n = AppLocalizations.of(context);
+  final currentController = TextEditingController();
+  final newController = TextEditingController();
+
+  final confirmed = await showDialog<bool>(
+    context: context,
+    builder: (dialogContext) => AlertDialog(
+      title: Text(l10n.changePasswordLabel),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: currentController,
+            obscureText: true,
+            decoration: InputDecoration(labelText: l10n.currentPasswordLabel),
+          ),
+          const SizedBox(height: AppDimens.spaceM),
+          TextField(
+            controller: newController,
+            obscureText: true,
+            decoration: InputDecoration(labelText: l10n.newPasswordLabel),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(dialogContext).pop(false),
+          child: Text(l10n.cancelLabel),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(dialogContext).pop(true),
+          child: Text(l10n.saveLabel),
+        ),
+      ],
+    ),
+  );
+
+  final currentPassword = currentController.text;
+  final newPassword = newController.text;
+  currentController.dispose();
+  newController.dispose();
+
+  if (confirmed != true ||
+      currentPassword.isEmpty ||
+      newPassword.isEmpty ||
+      !context.mounted) {
+    return;
+  }
+
+  await ref.read(authViewModelProvider.notifier).updatePassword(
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      );
+  if (!context.mounted) return;
+  final hasError = ref.read(authViewModelProvider).hasError;
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(hasError ? l10n.authErrorGeneric : l10n.passwordUpdatedMessage),
+    ),
+  );
 }
 
 class _OptionTile extends StatelessWidget {

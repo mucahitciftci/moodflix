@@ -143,7 +143,11 @@ class MovieDetailScreen extends ConsumerWidget {
                           showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,
-                            builder: (_) => ReviewComposerSheet(movieId: movie.id),
+                            builder: (_) => ReviewComposerSheet(
+                              movieId: movie.id,
+                              movieTitle: movie.title,
+                              moviePosterPath: movie.posterPath,
+                            ),
                           );
                         },
                       ),
@@ -160,7 +164,8 @@ class MovieDetailScreen extends ConsumerWidget {
                       }
                       return Column(
                         children: [
-                          for (final review in reviews) ReviewTile(review: review),
+                          for (final review in reviews)
+                            ReviewTile(review: review, showMovieTitle: false),
                         ],
                       );
                     },

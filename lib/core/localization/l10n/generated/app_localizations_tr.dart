@@ -12,6 +12,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get appTitle => 'Moodflix';
 
   @override
+  String get authTagline => 'Ruh haline uygun filmler';
+
+  @override
   String get moodMindBenderTitle => 'Beynimi Yaksın';
 
   @override
@@ -165,7 +168,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get undoSwipeTooltip => 'Geri al';
 
   @override
-  String get settingsScreenTitle => 'Ayarlar';
+  String get settingsScreenTitle => 'Menü';
 
   @override
   String get themeSectionTitle => 'Tema';
@@ -255,4 +258,100 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get continueAsGuestLabel => 'Misafir olarak devam et';
+
+  @override
+  String howToBrowseTitleWithName(String name) {
+    return 'Nasıl film bulmak istersin, $name?';
+  }
+
+  @override
+  String get changeUsernameLabel => 'Kullanıcı Adını Değiştir';
+
+  @override
+  String get changeEmailLabel => 'E-postayı Değiştir';
+
+  @override
+  String get changePasswordLabel => 'Şifreyi Değiştir';
+
+  @override
+  String get newEmailLabel => 'Yeni e-posta';
+
+  @override
+  String get currentPasswordLabel => 'Mevcut şifre';
+
+  @override
+  String get newPasswordLabel => 'Yeni şifre';
+
+  @override
+  String get saveLabel => 'Kaydet';
+
+  @override
+  String get usernameUpdatedMessage => 'Kullanıcı adın güncellendi.';
+
+  @override
+  String get emailUpdateSentMessage =>
+      'Yeni e-postana bir onay linki gönderdik. Onaylayınca e-postan değişecek.';
+
+  @override
+  String get passwordUpdatedMessage => 'Şifren güncellendi.';
+
+  @override
+  String get socialScreenTitle => 'Sosyal';
+
+  @override
+  String get searchTabLabel => 'Ara';
+
+  @override
+  String get followingTabLabel => 'Takip Ettiklerim';
+
+  @override
+  String get searchUsersHint => 'Kullanıcı ara...';
+
+  @override
+  String get noUsersFound => 'Kullanıcı bulunamadı';
+
+  @override
+  String get noFollowingYet => 'Henüz kimseyi takip etmiyorsun';
+
+  @override
+  String get followButtonLabel => 'Takip Et';
+
+  @override
+  String get unfollowButtonLabel => 'Takip Ediliyor';
+
+  @override
+  String get userHasNoReviewsYet => 'Bu kullanıcı henüz inceleme yazmamış.';
+
+  @override
+  String get likeTooltip => 'Beğen';
+
+  @override
+  String get commentsTooltip => 'Yorumlar';
+
+  @override
+  String get commentHint => 'Yorum yaz...';
+
+  @override
+  String get noCommentsYet => 'Henüz yorum yok.';
+
+  @override
+  String get privacySectionTitle => 'Gizlilik';
+
+  @override
+  String get listSharingOff => 'Kapalı';
+
+  @override
+  String get listSharingPublic => 'Herkese Açık';
+
+  @override
+  String get listSharingFollowers => 'Sadece Takipçilerime';
+
+  @override
+  String get theirWatchlistTitle => 'İzleyecekleri';
+
+  @override
+  String get theirFavoritesTitle => 'Favorileri';
+
+  @override
+  String get emptySharedListMessage => 'Henüz bir şey eklenmemiş.';
 }

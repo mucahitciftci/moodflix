@@ -6,6 +6,11 @@
     "description": "The application name, shown as the OS task title."
   },
 
+  "authTagline": "Movies that match your mood",
+  "@authTagline": {
+    "description": "Short tagline shown under the app name on the login/sign-up screens."
+  },
+
   "moodMindBenderTitle": "Mind Bender",
   "@moodMindBenderTitle": {
     "description": "Mood: mind-bending / thought-provoking films (mystery, sci-fi, thriller)."
@@ -185,9 +190,9 @@
     "description": "Tooltip for the undo-last-swipe button on the discovery card stack."
   },
 
-  "settingsScreenTitle": "Settings",
+  "settingsScreenTitle": "Menu",
   "@settingsScreenTitle": {
-    "description": "Title of the settings screen, and tooltip for its entry icon."
+    "description": "Title of the account/preferences screen, and tooltip for its entry icon."
   },
 
   "themeSectionTitle": "Theme",
@@ -242,5 +247,79 @@
   "continueAsGuestLabel": "Continue as guest",
   "@continueAsGuestLabel": {
     "description": "Button on the startup auth screen to skip login and browse without an account."
-  }
+  },
+
+  "howToBrowseTitleWithName": "How would you like to find movies, {name}?",
+  "@howToBrowseTitleWithName": {
+    "description": "Personalized variant of howToBrowseTitle, shown when signed in.",
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+
+  "changeUsernameLabel": "Change Username",
+  "changeEmailLabel": "Change Email",
+  "changePasswordLabel": "Change Password",
+  "newEmailLabel": "New email",
+  "currentPasswordLabel": "Current password",
+  "newPasswordLabel": "New password",
+  "saveLabel": "Save",
+  "usernameUpdatedMessage": "Your username was updated.",
+  "emailUpdateSentMessage": "We sent a confirmation link to your new email. It will change once you confirm it.",
+  "passwordUpdatedMessage": "Your password was updated.",
+
+  "socialScreenTitle": "Social",
+  "@socialScreenTitle": {
+    "description": "Title of the screen for finding/following other users, and tooltip for its entry icon."
+  },
+
+  "searchTabLabel": "Search",
+  "followingTabLabel": "Following",
+  "searchUsersHint": "Search users...",
+  "noUsersFound": "No users found",
+  "noFollowingYet": "You're not following anyone yet",
+  "followButtonLabel": "Follow",
+  "unfollowButtonLabel": "Following",
+  "@unfollowButtonLabel": {
+    "description": "Shown on the follow button when already following someone; tapping it unfollows."
+  },
+
+  "userHasNoReviewsYet": "This user hasn't written any reviews yet.",
+
+  "likeTooltip": "Like",
+  "commentsTooltip": "Comments",
+  "commentHint": "Write a comment...",
+  "noCommentsYet": "No comments yet.",
+
+  "privacySectionTitle": "Privacy",
+  "@privacySectionTitle": {
+    "description": "Section heading on the settings screen for watchlist/favorites sharing visibility."
+  },
+
+  "listSharingOff": "Off",
+  "@listSharingOff": {
+    "description": "List-sharing option: watchlist/favorites are not shared with anyone."
+  },
+
+  "listSharingPublic": "Public",
+  "@listSharingPublic": {
+    "description": "List-sharing option: watchlist/favorites are visible to any signed-in user."
+  },
+
+  "listSharingFollowers": "Followers Only",
+  "@listSharingFollowers": {
+    "description": "List-sharing option: watchlist/favorites are visible only to people who follow you."
+  },
+
+  "theirWatchlistTitle": "Watchlist",
+  "@theirWatchlistTitle": {
+    "description": "Heading for another user's shared watchlist section on their profile."
+  },
+
+  "theirFavoritesTitle": "Favorites",
+  "@theirFavoritesTitle": {
+    "description": "Heading for another user's shared favorites section on their profile."
+  },
+
+  "emptySharedListMessage": "Nothing added yet."
 }

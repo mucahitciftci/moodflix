@@ -33,7 +33,9 @@ void main() {
         child: const MoodflixApp(),
       ),
     );
-    await tester.pumpAndSettle();
+    // Not pumpAndSettle: the login screen's chameleon mascot animates in an
+    // infinite repeat(reverse: true) loop, so it would never settle.
+    await tester.pump(const Duration(seconds: 1));
 
     expect(find.byType(MoodflixApp), findsOneWidget);
   });

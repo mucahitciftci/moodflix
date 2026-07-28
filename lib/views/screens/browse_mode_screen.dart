@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_dimens.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/localization/l10n/generated/app_localizations.dart';
 import '../../core/routing/app_router.dart';
+import '../../viewmodels/auth_viewmodel.dart';
+import '../widgets/chameleon_mascot.dart';
+
+const double _mascotSize = AppDimens.iconXl * 2;
 
 /// The app's true home screen: lets the user pick how they want to find
 /// movies — by mood (`MoodSelectionScreen`) or by category
 /// (`CategorySelectionScreen`) — before anything TMDB-related loads.
-class BrowseModeScreen extends StatelessWidget {
+class BrowseModeScreen extends ConsumerWidget {
   const BrowseModeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final displayName = ref.watch(authStateProvider).valueOrNull?.displayName;
+    final browseTitle = (displayName != null && displayName.isNotEmpty)
+        ? l10n.howToBrowseTitleWithName(displayName)
+        : l10n.howToBrowseTitle;
 
     return Scaffold(
       appBar: AppBar(
@@ -25,6 +34,13 @@ class BrowseModeScreen extends StatelessWidget {
         title: Text(l10n.appTitle),
         actions: [
           IconButton(
+            icon: const Icon(Icons.groups_outlined),
+            iconSize: AppDimens.iconXl,
+            tooltip: l10n.socialScreenTitle,
+            onPressed: () =>
+                Navigator.of(context).pushNamed(AppRoutes.social),
+          ),
+          IconButton(
             icon: const Icon(Icons.bookmark_outline),
             iconSize: AppDimens.iconXl,
             tooltip: l10n.myListsScreenTitle,
@@ -32,7 +48,7 @@ class BrowseModeScreen extends StatelessWidget {
                 Navigator.of(context).pushNamed(AppRoutes.watchlist),
           ),
           IconButton(
-            icon: const Icon(Icons.settings_outlined),
+            icon: const Icon(Icons.account_circle_outlined),
             iconSize: AppDimens.iconXl,
             tooltip: l10n.settingsScreenTitle,
             onPressed: () =>
@@ -46,13 +62,29 @@ class BrowseModeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _SearchBarEntry(
-              hint: l10n.searchHint,
-              onTap: () => Navigator.of(context).pushNamed(AppRoutes.search),
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                _SearchBarEntry(
+                  hint: l10n.searchHint,
+                  onTap: () =>
+                      Navigator.of(context).pushNamed(AppRoutes.search),
+                ),
+                Positioned(
+                  top: -_mascotSize * 0.5,
+                  right: AppDimens.spaceS,
+                  child: const IgnorePointer(
+                    child: Opacity(
+                      opacity: 0.8,
+                      child: ChameleonMascot(size: _mascotSize, bare: true),
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: AppDimens.spaceXl),
             Text(
-              l10n.howToBrowseTitle,
+              browseTitle,
               style: AppTextStyles.title,
               textAlign: TextAlign.center,
             ),

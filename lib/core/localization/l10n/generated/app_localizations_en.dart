@@ -12,6 +12,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Moodflix';
 
   @override
+  String get authTagline => 'Movies that match your mood';
+
+  @override
   String get moodMindBenderTitle => 'Mind Bender';
 
   @override
@@ -167,7 +170,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get undoSwipeTooltip => 'Undo';
 
   @override
-  String get settingsScreenTitle => 'Settings';
+  String get settingsScreenTitle => 'Menu';
 
   @override
   String get themeSectionTitle => 'Theme';
@@ -256,4 +259,101 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get continueAsGuestLabel => 'Continue as guest';
+
+  @override
+  String howToBrowseTitleWithName(String name) {
+    return 'How would you like to find movies, $name?';
+  }
+
+  @override
+  String get changeUsernameLabel => 'Change Username';
+
+  @override
+  String get changeEmailLabel => 'Change Email';
+
+  @override
+  String get changePasswordLabel => 'Change Password';
+
+  @override
+  String get newEmailLabel => 'New email';
+
+  @override
+  String get currentPasswordLabel => 'Current password';
+
+  @override
+  String get newPasswordLabel => 'New password';
+
+  @override
+  String get saveLabel => 'Save';
+
+  @override
+  String get usernameUpdatedMessage => 'Your username was updated.';
+
+  @override
+  String get emailUpdateSentMessage =>
+      'We sent a confirmation link to your new email. It will change once you confirm it.';
+
+  @override
+  String get passwordUpdatedMessage => 'Your password was updated.';
+
+  @override
+  String get socialScreenTitle => 'Social';
+
+  @override
+  String get searchTabLabel => 'Search';
+
+  @override
+  String get followingTabLabel => 'Following';
+
+  @override
+  String get searchUsersHint => 'Search users...';
+
+  @override
+  String get noUsersFound => 'No users found';
+
+  @override
+  String get noFollowingYet => 'You\'re not following anyone yet';
+
+  @override
+  String get followButtonLabel => 'Follow';
+
+  @override
+  String get unfollowButtonLabel => 'Following';
+
+  @override
+  String get userHasNoReviewsYet =>
+      'This user hasn\'t written any reviews yet.';
+
+  @override
+  String get likeTooltip => 'Like';
+
+  @override
+  String get commentsTooltip => 'Comments';
+
+  @override
+  String get commentHint => 'Write a comment...';
+
+  @override
+  String get noCommentsYet => 'No comments yet.';
+
+  @override
+  String get privacySectionTitle => 'Privacy';
+
+  @override
+  String get listSharingOff => 'Off';
+
+  @override
+  String get listSharingPublic => 'Public';
+
+  @override
+  String get listSharingFollowers => 'Followers Only';
+
+  @override
+  String get theirWatchlistTitle => 'Watchlist';
+
+  @override
+  String get theirFavoritesTitle => 'Favorites';
+
+  @override
+  String get emptySharedListMessage => 'Nothing added yet.';
 }

@@ -57,10 +57,22 @@ class MovieDiscoveryViewModel extends AsyncNotifier<MovieDiscoveryState> {
 
   MovieRepository get _repository => ref.read(movieRepositoryProvider);
 
+  /// Movies already on the watchlist or favorites don't need to be swiped
+  /// on again. `hasMore`/pagination still tracks the *raw* fetched page
+  /// size (see call sites) so a page that happens to be entirely
+  /// already-saved movies doesn't look like "no more results" and stop
+  /// pagination early.
+  List<MovieModel> _excludeAlreadySaved(List<MovieModel> movies) {
+    return movies
+        .where((movie) =>
+            !_repository.isInWatchlist(movie.id) && !_repository.isFavorite(movie.id))
+        .toList();
+  }
+
   /// Switches the screen to [source]: shows the cached first page instantly
   /// (if present), then fetches a fresh first page from the network.
   Future<void> load(DiscoverySource source) async {
-    final cached = _repository.cachedPage(source.cacheKey, 1);
+    final cached = _excludeAlreadySaved(_repository.cachedPage(source.cacheKey, 1));
     state = AsyncData(
       MovieDiscoveryState(source: source, movies: cached, page: 1),
     );
@@ -74,7 +86,7 @@ class MovieDiscoveryViewModel extends AsyncNotifier<MovieDiscoveryState> {
       state = AsyncData(
         MovieDiscoveryState(
           source: source,
-          movies: fresh,
+          movies: _excludeAlreadySaved(fresh),
           page: 1,
           hasMore: fresh.isNotEmpty,
         ),
@@ -110,7 +122,7 @@ class MovieDiscoveryViewModel extends AsyncNotifier<MovieDiscoveryState> {
       final updated = state.value ?? current;
       state = AsyncData(
         updated.copyWith(
-          movies: [...updated.movies, ...fetched],
+          movies: [...updated.movies, ..._excludeAlreadySaved(fetched)],
           page: nextPage,
           hasMore: fetched.isNotEmpty,
           isLoadingNextPage: false,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../models/app_user.dart';
 import '../../models/discovery_source.dart';
 import '../../models/movie_model.dart';
 import '../../views/screens/auth_gate_screen.dart';
@@ -11,6 +12,8 @@ import '../../views/screens/movie_detail_screen.dart';
 import '../../views/screens/search_screen.dart';
 import '../../views/screens/settings_screen.dart';
 import '../../views/screens/sign_up_screen.dart';
+import '../../views/screens/social_screen.dart';
+import '../../views/screens/user_profile_screen.dart';
 import '../../views/screens/watchlist_screen.dart';
 
 /// Named route identifiers. No `Navigator.push`/`pushNamed` call anywhere in
@@ -27,6 +30,8 @@ abstract final class AppRoutes {
   static const String settings = '/settings';
   static const String login = '/login';
   static const String signUp = '/sign-up';
+  static const String social = '/social';
+  static const String userProfile = '/user-profile';
 }
 
 abstract final class AppRouter {
@@ -66,6 +71,17 @@ abstract final class AppRouter {
       case AppRoutes.signUp:
         return MaterialPageRoute(
           builder: (_) => const SignUpScreen(),
+          settings: settings,
+        );
+      case AppRoutes.social:
+        return MaterialPageRoute(
+          builder: (_) => const SocialScreen(),
+          settings: settings,
+        );
+      case AppRoutes.userProfile:
+        final user = settings.arguments as AppUser;
+        return MaterialPageRoute(
+          builder: (_) => UserProfileScreen(user: user),
           settings: settings,
         );
       case AppRoutes.watchlist:
