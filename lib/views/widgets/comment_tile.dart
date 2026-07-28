@@ -7,6 +7,7 @@ import '../../core/localization/l10n/generated/app_localizations.dart';
 import '../../models/comment_model.dart';
 import '../../viewmodels/auth_viewmodel.dart';
 import '../../viewmodels/review_viewmodel.dart';
+import 'user_avatar.dart';
 
 /// A single comment row under a review — author, text, and (only for the
 /// comment's own author) a small delete button.
@@ -27,6 +28,13 @@ class CommentTile extends ConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          UserAvatar(
+            base64Photo: comment.authorPhotoBase64,
+            presetAnimal: comment.authorPresetAvatarAnimal,
+            presetColorValue: comment.authorPresetAvatarColorValue,
+            radius: AppDimens.avatarRadiusS,
+          ),
+          const SizedBox(width: AppDimens.spaceS),
           Expanded(
             child: RichText(
               text: TextSpan(

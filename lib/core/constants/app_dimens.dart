@@ -62,6 +62,19 @@ abstract final class AppDimens {
   // Auth forms (login/sign up) — centered, capped width on wide screens
   static const double authFormMaxWidth = 400;
 
+  // User avatars (profile photo, or a fallback person icon)
+  static const double avatarRadiusS = 14;
+  static const double avatarRadiusM = 20;
+  static const double avatarRadiusL = 40;
+
+  // Profile photo: resized client-side before being stored as base64 in
+  // the user's Firestore doc (no Firebase Storage — see AppUser doc
+  // comment), so it stays small enough to comfortably fit Firestore's
+  // 1 MiB per-document limit alongside the doc's other fields.
+  static const double profilePhotoMaxDimension = 256;
+  static const int profilePhotoQuality = 70;
+  static const int profilePhotoMaxBase64Length = 700000;
+
   // Elevation
   static const double elevationS = 2;
   static const double elevationM = 6;

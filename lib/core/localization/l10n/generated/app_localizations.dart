@@ -596,6 +596,48 @@ abstract class AppLocalizations {
   /// **'How would you like to find movies, {name}?'**
   String howToBrowseTitleWithName(String name);
 
+  /// No description provided for @changePhotoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Change profile photo'**
+  String get changePhotoLabel;
+
+  /// No description provided for @choosePhotoFromGalleryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get choosePhotoFromGalleryLabel;
+
+  /// No description provided for @takePhotoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get takePhotoLabel;
+
+  /// No description provided for @removePhotoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get removePhotoLabel;
+
+  /// No description provided for @createPresetAvatarLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a preset avatar'**
+  String get createPresetAvatarLabel;
+
+  /// No description provided for @chooseAnimalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an animal'**
+  String get chooseAnimalLabel;
+
+  /// No description provided for @chooseColorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a color'**
+  String get chooseColorLabel;
+
   /// No description provided for @changeUsernameLabel.
   ///
   /// In en, this message translates to:

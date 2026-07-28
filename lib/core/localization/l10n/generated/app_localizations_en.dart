@@ -266,6 +266,27 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get changePhotoLabel => 'Change profile photo';
+
+  @override
+  String get choosePhotoFromGalleryLabel => 'Choose from gallery';
+
+  @override
+  String get takePhotoLabel => 'Take a photo';
+
+  @override
+  String get removePhotoLabel => 'Remove photo';
+
+  @override
+  String get createPresetAvatarLabel => 'Create a preset avatar';
+
+  @override
+  String get chooseAnimalLabel => 'Choose an animal';
+
+  @override
+  String get chooseColorLabel => 'Choose a color';
+
+  @override
   String get changeUsernameLabel => 'Change Username';
 
   @override

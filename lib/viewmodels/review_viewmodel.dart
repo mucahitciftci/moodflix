@@ -4,6 +4,7 @@ import '../models/comment_model.dart';
 import '../models/review_model.dart';
 import '../repositories/review_repository.dart';
 import 'auth_viewmodel.dart';
+import 'list_sharing_viewmodel.dart';
 
 /// Live reviews for one movie — a Firestore listener, not a one-off fetch,
 /// so new reviews from anyone appear without a manual refresh.
@@ -34,6 +35,7 @@ class ReviewViewModel extends AsyncNotifier<void> {
   }) async {
     final user = ref.read(authStateProvider).valueOrNull;
     if (user == null) return;
+    final myProfile = ref.read(currentUserProfileProvider).valueOrNull;
 
     state = const AsyncLoading();
     state = await AsyncValue.guard(() {
@@ -46,6 +48,9 @@ class ReviewViewModel extends AsyncNotifier<void> {
         authorDisplayName: (user.displayName?.isNotEmpty ?? false)
             ? user.displayName!
             : (user.email ?? ''),
+        authorPhotoBase64: myProfile?.photoBase64,
+        authorPresetAvatarAnimal: myProfile?.presetAvatarAnimal,
+        authorPresetAvatarColorValue: myProfile?.presetAvatarColorValue,
         rating: rating,
         text: text,
         createdAt: DateTime.now(),
@@ -114,6 +119,7 @@ class CommentViewModel extends AsyncNotifier<void> {
   Future<void> addComment(String reviewId, String text) async {
     final user = ref.read(authStateProvider).valueOrNull;
     if (user == null) return;
+    final myProfile = ref.read(currentUserProfileProvider).valueOrNull;
 
     state = const AsyncLoading();
     state = await AsyncValue.guard(() {
@@ -123,6 +129,9 @@ class CommentViewModel extends AsyncNotifier<void> {
         authorDisplayName: (user.displayName?.isNotEmpty ?? false)
             ? user.displayName!
             : (user.email ?? ''),
+        authorPhotoBase64: myProfile?.photoBase64,
+        authorPresetAvatarAnimal: myProfile?.presetAvatarAnimal,
+        authorPresetAvatarColorValue: myProfile?.presetAvatarColorValue,
         text: text,
         createdAt: DateTime.now(),
       );

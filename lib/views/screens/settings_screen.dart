@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_dimens.dart';
 import '../../core/constants/app_text_styles.dart';
+import '../../core/constants/preset_avatar_config.dart';
 import '../../core/localization/l10n/generated/app_localizations.dart';
 import '../../core/localization/locale_provider.dart';
 import '../../core/routing/app_router.dart';
@@ -11,6 +13,8 @@ import '../../core/theme/app_theme.dart';
 import '../../models/app_user.dart';
 import '../../viewmodels/auth_viewmodel.dart';
 import '../../viewmodels/list_sharing_viewmodel.dart';
+import '../widgets/preset_avatar_picker_dialog.dart';
+import '../widgets/user_avatar.dart';
 
 /// Account (login state, username/email/password changes), theme
 /// (light/dark/system) and language (TR/EN) — the app's "Menü" screen,
@@ -56,6 +60,23 @@ class SettingsScreen extends ConsumerWidget {
                         ),
                 ),
                 if (currentUser != null) ...[
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: UserAvatar(
+                      base64Photo: myProfile?.photoBase64,
+                      presetAnimal: myProfile?.presetAvatarAnimal,
+                      presetColorValue: myProfile?.presetAvatarColorValue,
+                      radius: AppDimens.avatarRadiusS,
+                    ),
+                    title: Text(l10n.changePhotoLabel),
+                    onTap: () => _showPhotoOptions(
+                      context,
+                      ref,
+                      hasPhoto: myProfile?.photoBase64 != null,
+                      initialAnimal: myProfile?.presetAvatarAnimal,
+                      initialColorValue: myProfile?.presetAvatarColorValue,
+                    ),
+                  ),
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.badge_outlined),
@@ -152,6 +173,87 @@ class SettingsScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+Future<void> _showPhotoOptions(
+  BuildContext context,
+  WidgetRef ref, {
+  required bool hasPhoto,
+  PresetAnimal? initialAnimal,
+  int? initialColorValue,
+}) async {
+  final l10n = AppLocalizations.of(context);
+
+  Future<void> pick(ImageSource source) async {
+    Navigator.of(context).pop();
+    await ref.read(authViewModelProvider.notifier).pickAndUpdatePhoto(source);
+    if (!context.mounted) return;
+    if (ref.read(authViewModelProvider).hasError) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(l10n.authErrorGeneric)));
+    }
+  }
+
+  Future<void> remove() async {
+    Navigator.of(context).pop();
+    await ref.read(authViewModelProvider.notifier).removePhoto();
+    if (!context.mounted) return;
+    if (ref.read(authViewModelProvider).hasError) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(l10n.authErrorGeneric)));
+    }
+  }
+
+  Future<void> createPreset() async {
+    Navigator.of(context).pop();
+    final result = await showDialog<(PresetAnimal, Color)>(
+      context: context,
+      builder: (_) => PresetAvatarPickerDialog(
+        initialAnimal: initialAnimal,
+        initialColor: initialColorValue == null ? null : Color(initialColorValue),
+      ),
+    );
+    if (result == null || !context.mounted) return;
+    final (animal, color) = result;
+    await ref.read(authViewModelProvider.notifier).setPresetAvatar(animal, color);
+    if (!context.mounted) return;
+    if (ref.read(authViewModelProvider).hasError) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(l10n.authErrorGeneric)));
+    }
+  }
+
+  await showModalBottomSheet<void>(
+    context: context,
+    builder: (_) => SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.photo_library_outlined),
+            title: Text(l10n.choosePhotoFromGalleryLabel),
+            onTap: () => pick(ImageSource.gallery),
+          ),
+          ListTile(
+            leading: const Icon(Icons.photo_camera_outlined),
+            title: Text(l10n.takePhotoLabel),
+            onTap: () => pick(ImageSource.camera),
+          ),
+          ListTile(
+            leading: const Icon(Icons.pets_outlined),
+            title: Text(l10n.createPresetAvatarLabel),
+            onTap: createPreset,
+          ),
+          if (hasPhoto)
+            ListTile(
+              leading: const Icon(Icons.delete_outline),
+              title: Text(l10n.removePhotoLabel),
+              onTap: remove,
+            ),
+        ],
+      ),
+    ),
+  );
 }
 
 Future<void> _showChangeUsernameDialog(

@@ -37,6 +37,28 @@ abstract final class AppColors {
   // Foreground on saturated mood accent / brand-colored backgrounds
   static const Color onColorSurface = Color(0xFFFFFFFF);
 
+  // Preset avatar palette — background color behind a PresetAvatarIcon
+  // silhouette, picked by the user in the avatar builder.
+  static const Color avatarPaletteRed = Color(0xFFE53935);
+  static const Color avatarPaletteOrange = Color(0xFFFB8C00);
+  static const Color avatarPaletteAmber = Color(0xFFD1934F);
+  static const Color avatarPaletteGreen = Color(0xFF43A047);
+  static const Color avatarPaletteTeal = Color(0xFF00897B);
+  static const Color avatarPaletteBlue = Color(0xFF1E88E5);
+  static const Color avatarPalettePurple = Color(0xFF6C4FD1);
+  static const Color avatarPalettePink = Color(0xFFD81B60);
+
+  static const List<Color> avatarPalette = [
+    avatarPaletteRed,
+    avatarPaletteOrange,
+    avatarPaletteAmber,
+    avatarPaletteGreen,
+    avatarPaletteTeal,
+    avatarPaletteBlue,
+    avatarPalettePurple,
+    avatarPalettePink,
+  ];
+
   // Explicit "no color" — the canonical source for gradients that fade to
   // nothing, so widgets never reach for `Colors.transparent` directly.
   static const Color transparent = Color(0x00000000);

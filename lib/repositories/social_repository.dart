@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/constants/preset_avatar_config.dart';
 import '../models/app_user.dart';
 import '../services/follow_service.dart';
 import '../services/user_service.dart';
@@ -24,6 +25,12 @@ class SocialRepository {
 
   Future<void> updateListSharing(String uid, ListSharingVisibility visibility) =>
       _userService.updateListSharing(uid, visibility);
+
+  Future<void> updatePhoto(String uid, String? base64) =>
+      _userService.updatePhoto(uid, base64);
+
+  Future<void> updatePresetAvatar(String uid, PresetAnimal animal, int colorValue) =>
+      _userService.updatePresetAvatar(uid, animal, colorValue);
 
   Future<List<AppUser>> searchUsers(String query) =>
       _userService.searchUsers(query);

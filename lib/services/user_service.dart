@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/constants/preset_avatar_config.dart';
 import '../models/app_user.dart';
 
 /// Raw Firestore read/write for the `users` collection — public profile
@@ -41,6 +42,30 @@ class UserService {
   Future<void> updateListSharing(String uid, ListSharingVisibility visibility) {
     return _users.doc(uid).set(
       {'listSharing': visibility.firestoreValue},
+      SetOptions(merge: true),
+    );
+  }
+
+  /// Targeted write of just `photoBase64` — same reasoning as
+  /// [updateListSharing]. Pass `null` to clear the photo.
+  Future<void> updatePhoto(String uid, String? base64) {
+    return _users.doc(uid).set(
+      {'photoBase64': base64},
+      SetOptions(merge: true),
+    );
+  }
+
+  /// Targeted write of a preset (animal + color) avatar — also clears
+  /// `photoBase64` in the same write, so the preset becomes the visibly
+  /// active avatar immediately (`UserAvatar` prioritizes a real photo over
+  /// a preset when both happen to be set).
+  Future<void> updatePresetAvatar(String uid, PresetAnimal animal, int colorValue) {
+    return _users.doc(uid).set(
+      {
+        'presetAvatarAnimal': animal.name,
+        'presetAvatarColorValue': colorValue,
+        'photoBase64': null,
+      },
       SetOptions(merge: true),
     );
   }

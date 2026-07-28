@@ -11,6 +11,7 @@ import '../../models/review_model.dart';
 import '../../viewmodels/auth_viewmodel.dart';
 import '../../viewmodels/review_viewmodel.dart';
 import 'comment_tile.dart';
+import 'user_avatar.dart';
 
 /// A single review row: which movie it's about, author, star rating, text,
 /// a like button + count, a comments toggle + count (with an inline
@@ -88,6 +89,13 @@ class _ReviewTileState extends ConsumerState<ReviewTile> {
           ],
           Row(
             children: [
+              UserAvatar(
+                base64Photo: review.authorPhotoBase64,
+                presetAnimal: review.authorPresetAvatarAnimal,
+                presetColorValue: review.authorPresetAvatarColorValue,
+                radius: AppDimens.avatarRadiusM,
+              ),
+              const SizedBox(width: AppDimens.spaceS),
               Expanded(
                 child: Text(
                   review.authorDisplayName,

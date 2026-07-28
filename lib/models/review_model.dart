@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
+import '../core/constants/preset_avatar_config.dart';
+
 /// A user-written review for a movie, stored in Firestore's `reviews`
 /// collection. Distinct from [MovieModel] — this is our own social-feature
 /// data, not anything TMDB provides.
@@ -12,6 +14,9 @@ class ReviewModel {
   final String? moviePosterPath;
   final String userId;
   final String authorDisplayName;
+  final String? authorPhotoBase64;
+  final PresetAnimal? authorPresetAvatarAnimal;
+  final int? authorPresetAvatarColorValue;
   final double rating;
   final String text;
   final DateTime createdAt;
@@ -23,6 +28,9 @@ class ReviewModel {
     this.moviePosterPath,
     required this.userId,
     required this.authorDisplayName,
+    this.authorPhotoBase64,
+    this.authorPresetAvatarAnimal,
+    this.authorPresetAvatarColorValue,
     required this.rating,
     required this.text,
     required this.createdAt,
@@ -43,6 +51,9 @@ class ReviewModel {
       moviePosterPath: data['moviePosterPath'] as String?,
       userId: data['userId'] as String,
       authorDisplayName: data['authorDisplayName'] as String? ?? '',
+      authorPhotoBase64: data['authorPhotoBase64'] as String?,
+      authorPresetAvatarAnimal: PresetAnimal.fromKey(data['authorPresetAvatarAnimal'] as String?),
+      authorPresetAvatarColorValue: (data['authorPresetAvatarColorValue'] as num?)?.toInt(),
       rating: (data['rating'] as num).toDouble(),
       text: data['text'] as String? ?? '',
       createdAt: timestamp is Timestamp ? timestamp.toDate() : DateTime.now(),
@@ -61,6 +72,9 @@ class ReviewModel {
         'moviePosterPath': moviePosterPath,
         'userId': userId,
         'authorDisplayName': authorDisplayName,
+        'authorPhotoBase64': authorPhotoBase64,
+        'authorPresetAvatarAnimal': authorPresetAvatarAnimal?.name,
+        'authorPresetAvatarColorValue': authorPresetAvatarColorValue,
         'rating': rating,
         'text': text,
         'createdAt': FieldValue.serverTimestamp(),

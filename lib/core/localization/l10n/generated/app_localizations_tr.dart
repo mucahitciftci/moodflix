@@ -265,6 +265,27 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String get changePhotoLabel => 'Profil fotoğrafını değiştir';
+
+  @override
+  String get choosePhotoFromGalleryLabel => 'Galeriden seç';
+
+  @override
+  String get takePhotoLabel => 'Kamerayla çek';
+
+  @override
+  String get removePhotoLabel => 'Fotoğrafı kaldır';
+
+  @override
+  String get createPresetAvatarLabel => 'Hazır avatar oluştur';
+
+  @override
+  String get chooseAnimalLabel => 'Hayvan seç';
+
+  @override
+  String get chooseColorLabel => 'Renk seç';
+
+  @override
   String get changeUsernameLabel => 'Kullanıcı Adını Değiştir';
 
   @override

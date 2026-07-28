@@ -257,6 +257,13 @@
     }
   },
 
+  "changePhotoLabel": "Change profile photo",
+  "choosePhotoFromGalleryLabel": "Choose from gallery",
+  "takePhotoLabel": "Take a photo",
+  "removePhotoLabel": "Remove photo",
+  "createPresetAvatarLabel": "Create a preset avatar",
+  "chooseAnimalLabel": "Choose an animal",
+  "chooseColorLabel": "Choose a color",
   "changeUsernameLabel": "Change Username",
   "changeEmailLabel": "Change Email",
   "changePasswordLabel": "Change Password",

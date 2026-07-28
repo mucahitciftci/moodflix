@@ -13,6 +13,7 @@ import '../../viewmodels/social_viewmodel.dart';
 import '../widgets/app_bar_home_leading.dart';
 import '../widgets/movie_list_tile.dart';
 import '../widgets/review_tile.dart';
+import '../widgets/user_avatar.dart';
 
 /// A user's public profile: their name, a follow/unfollow button (hidden
 /// when viewing your own profile), every review they've written, and —
@@ -37,6 +38,10 @@ class UserProfileScreen extends ConsumerWidget {
     final liveProfile = ref.watch(userProfileProvider(user.uid)).valueOrNull;
     final displayName = liveProfile?.displayName ?? user.displayName;
     final listSharing = liveProfile?.listSharing ?? user.listSharing;
+    final photoBase64 = liveProfile?.photoBase64 ?? user.photoBase64;
+    final presetAnimal = liveProfile?.presetAvatarAnimal ?? user.presetAvatarAnimal;
+    final presetColorValue =
+        liveProfile?.presetAvatarColorValue ?? user.presetAvatarColorValue;
 
     final isFollowing =
         ref.watch(isFollowingProvider(user.uid)).valueOrNull ?? false;
@@ -55,9 +60,11 @@ class UserProfileScreen extends ConsumerWidget {
         children: [
           Row(
             children: [
-              const CircleAvatar(
-                radius: AppDimens.iconXl / 2,
-                child: Icon(Icons.person),
+              UserAvatar(
+                base64Photo: photoBase64,
+                presetAnimal: presetAnimal,
+                presetColorValue: presetColorValue,
+                radius: AppDimens.avatarRadiusL,
               ),
               const SizedBox(width: AppDimens.spaceM),
               Expanded(

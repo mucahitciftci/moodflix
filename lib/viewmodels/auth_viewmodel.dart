@@ -1,6 +1,12 @@
+import 'dart:convert';
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
+import '../core/constants/app_dimens.dart';
+import '../core/constants/preset_avatar_config.dart';
 import '../models/app_user.dart';
 import '../repositories/social_repository.dart';
 import '../services/auth_service.dart';
@@ -89,6 +95,58 @@ class AuthViewModel extends AsyncNotifier<void> {
         newPassword: newPassword,
       ),
     );
+  }
+
+  /// Opens the system photo picker, resizes/compresses client-side (via
+  /// `ImagePicker`'s own `maxWidth`/`maxHeight`/`imageQuality`, no separate
+  /// image-processing package needed), then stores it as base64 on the
+  /// user's Firestore doc. No Firebase Storage involved — see `AppUser`'s
+  /// doc comment for why. A no-op if the user cancels the picker.
+  Future<void> pickAndUpdatePhoto(ImageSource source) async {
+    final picked = await ImagePicker().pickImage(
+      source: source,
+      maxWidth: AppDimens.profilePhotoMaxDimension,
+      maxHeight: AppDimens.profilePhotoMaxDimension,
+      imageQuality: AppDimens.profilePhotoQuality,
+    );
+    if (picked == null) return;
+
+    final bytes = await picked.readAsBytes();
+    final base64 = base64Encode(bytes);
+    if (base64.length > AppDimens.profilePhotoMaxBase64Length) {
+      state = AsyncError(
+        Exception('Selected photo is too large after compression.'),
+        StackTrace.current,
+      );
+      return;
+    }
+
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      final uid = _service.currentUser?.uid;
+      if (uid == null) return;
+      await ref.read(socialRepositoryProvider).updatePhoto(uid, base64);
+    });
+  }
+
+  Future<void> removePhoto() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      final uid = _service.currentUser?.uid;
+      if (uid == null) return;
+      await ref.read(socialRepositoryProvider).updatePhoto(uid, null);
+    });
+  }
+
+  Future<void> setPresetAvatar(PresetAnimal animal, Color color) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      final uid = _service.currentUser?.uid;
+      if (uid == null) return;
+      await ref
+          .read(socialRepositoryProvider)
+          .updatePresetAvatar(uid, animal, color.toARGB32());
+    });
   }
 }
 

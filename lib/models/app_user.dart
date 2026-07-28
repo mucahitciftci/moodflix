@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import '../core/constants/preset_avatar_config.dart';
+
 /// Who can see a user's shared watchlist/favorites, chosen per-user in
 /// Settings' "Gizlilik" section — not a single fixed app-wide policy.
 enum ListSharingVisibility {
@@ -30,11 +32,17 @@ class AppUser {
   final String uid;
   final String displayName;
   final ListSharingVisibility listSharing;
+  final String? photoBase64;
+  final PresetAnimal? presetAvatarAnimal;
+  final int? presetAvatarColorValue;
 
   const AppUser({
     required this.uid,
     required this.displayName,
     this.listSharing = ListSharingVisibility.off,
+    this.photoBase64,
+    this.presetAvatarAnimal,
+    this.presetAvatarColorValue,
   });
 
   factory AppUser.fromFirestore(String uid, Map<String, dynamic> data) {
@@ -44,15 +52,19 @@ class AppUser {
       listSharing: ListSharingVisibility.fromFirestoreValue(
         data['listSharing'] as String?,
       ),
+      photoBase64: data['photoBase64'] as String?,
+      presetAvatarAnimal: PresetAnimal.fromKey(data['presetAvatarAnimal'] as String?),
+      presetAvatarColorValue: (data['presetAvatarColorValue'] as num?)?.toInt(),
     );
   }
 
-  /// Deliberately does NOT include `listSharing` — this is written by
-  /// `AuthViewModel` on every sign-in via `SetOptions(merge: true))`, and if
-  /// it included the in-memory default (`off`), every login would silently
-  /// reset the user's sharing preference back to off. Changing `listSharing`
-  /// goes through `UserService.updateListSharing` instead, as its own
-  /// targeted write.
+  /// Deliberately does NOT include `listSharing`, `photoBase64` or the
+  /// `presetAvatarAnimal`/`presetAvatarColorValue` pair — all are written
+  /// by `AuthViewModel` on every sign-in via `SetOptions(merge: true))`,
+  /// and if this included their in-memory defaults (`off` / `null`), every
+  /// login would silently wipe out the user's actual saved preferences.
+  /// Changing any of them goes through its own targeted write instead —
+  /// `UserService.updateListSharing` / `.updatePhoto` / `.updatePresetAvatar`.
   ///
   /// No `createdAt`/timestamp here deliberately either — this doc is
   /// upserted on every sign-in, and including a server timestamp would keep
