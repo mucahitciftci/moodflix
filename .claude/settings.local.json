@@ -59,13 +59,24 @@
       "Bash(nohup flutter run -d chrome --web-port=5959 --web-browser-flag=\"--user-data-dir=/Users/mucahit/Desktop/moodflix/.dev-chrome-profile\" --web-browser-flag=\"--remote-allow-origins=*\")",
       "Bash(pkill -f \"flutter run.*5959\" 2>/dev/null; lsof -ti:5959 | xargs -r kill -9 2>/dev/null; pkill -9 -f \"user-data-dir=/Users/mucahit/Desktop/moodflix/.dev-chrome-profile\" 2>/dev/null; sleep 1 *)",
       "Bash(git status *)",
-      "Bash(echo \"exit: $?\")"
+      "Bash(echo \"exit: $?\")",
+      "Bash(nohup flutter run -d emulator-5554 > /tmp/moodflix_android.log 2>&1 & disown; echo started)",
+      "Bash(adb -s emulator-5554 shell screencap -p /sdcard/screen.png)",
+      "Bash(adb -s emulator-5554 pull /sdcard/screen.png /tmp/android_screen.png)",
+      "Bash(adb -s emulator-5554 shell input tap 190 210)",
+      "Bash(adb -s emulator-5554 shell screencap -p /sdcard/screen2.png)",
+      "Bash(adb -s emulator-5554 pull /sdcard/screen2.png /tmp/android_screen2.png)",
+      "Bash(pkill -f \"flutter run -d emulator-5554\")",
+      "Bash(nohup flutter run -d emulator-5554)",
+      "Bash(flutter build *)",
+      "Bash(adb -s emulator-5554 emu kill)"
     ],
     "additionalDirectories": [
       "/Users/mucahit/Desktop/moodflix",
       "/Users/mucahit/.claude/projects/-Users-mucahit-Desktop-moodflix",
       "/private/tmp",
-      "/Users/mucahit/Desktop/moodflix/.dev-chrome-profile"
+      "/Users/mucahit/Desktop/moodflix/.dev-chrome-profile",
+      "/tmp"
     ]
   }
 }

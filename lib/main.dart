@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/localization/l10n/generated/app_localizations.dart';
 import 'core/localization/locale_provider.dart';
 import 'core/routing/app_router.dart';
+import 'core/theme/app_scroll_behavior.dart';
 import 'core/theme/app_theme.dart';
 import 'firebase_options.dart';
 import 'services/local_cache_service.dart';
@@ -32,6 +33,7 @@ class MoodflixApp extends ConsumerWidget {
     return MaterialApp(
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       debugShowCheckedModeBanner: false,
+      scrollBehavior: AppScrollBehavior(),
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: themeMode,

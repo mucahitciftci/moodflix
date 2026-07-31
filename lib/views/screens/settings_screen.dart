@@ -45,7 +45,11 @@ class SettingsScreen extends ConsumerWidget {
               children: [
                 ListTile(
                   leading: const Icon(Icons.person_outline),
-                  title: Text(currentUser?.email ?? l10n.notLoggedInMessage),
+                  title: Text(
+                    currentUser?.email ?? l10n.notLoggedInMessage,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   trailing: currentUser != null
                       ? TextButton(
                           onPressed: () => ref
