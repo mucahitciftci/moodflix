@@ -46,12 +46,14 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       appBar: AppBar(title: Text(l10n.signUpScreenTitle)),
       body: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment.topCenter,
-            radius: 1.1,
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: const [0.0, 0.6, 1.0],
             colors: [
-              AppColors.primary.withValues(alpha: 0.16),
-              AppColors.primary.withValues(alpha: 0),
+              AppColors.primaryDark.withValues(alpha: 0.55),
+              Theme.of(context).scaffoldBackgroundColor,
+              Theme.of(context).scaffoldBackgroundColor,
             ],
           ),
         ),

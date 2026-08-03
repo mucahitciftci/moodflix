@@ -254,6 +254,24 @@ abstract class AppLocalizations {
   /// **'Pick a genre and browse everything in it'**
   String get browseByCategorySubtitle;
 
+  /// Option to browse TMDB's actual trending ranking, no mood/genre filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Trending'**
+  String get browseByTrendingLabel;
+
+  /// Subtitle under the 'Trending' browse option.
+  ///
+  /// In en, this message translates to:
+  /// **'See what everyone\'s watching right now'**
+  String get browseByTrendingSubtitle;
+
+  /// App bar title of the discovery screen when browsing trending movies.
+  ///
+  /// In en, this message translates to:
+  /// **'Trending Movies'**
+  String get trendingMoviesTitle;
+
   /// App bar title of the mood selection screen (no longer the app's home screen).
   ///
   /// In en, this message translates to:
@@ -589,6 +607,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continue as guest'**
   String get continueAsGuestLabel;
+
+  /// Divider text between the email/password form and social sign-in buttons.
+  ///
+  /// In en, this message translates to:
+  /// **'or continue with'**
+  String get orContinueWithLabel;
+
+  /// Button to sign in with a Google account.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get continueWithGoogleLabel;
+
+  /// Button to sign in with an Apple ID.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Apple'**
+  String get continueWithAppleLabel;
 
   /// Personalized variant of howToBrowseTitle, shown when signed in.
   ///

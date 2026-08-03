@@ -19,31 +19,43 @@ class MoodChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Material(
-      color: mood.color,
-      borderRadius: BorderRadius.circular(AppDimens.radiusM),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppDimens.radiusM),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(AppDimens.spaceM),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                mood.icon,
-                size: AppDimens.iconL,
-                color: AppColors.onColorSurface,
-              ),
-              const SizedBox(height: AppDimens.spaceS),
-              Text(
-                l10n.moodTitle(mood.titleKey),
-                textAlign: TextAlign.center,
-                style: AppTextStyles.bodyStrong.copyWith(
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppDimens.radiusL),
+        boxShadow: [
+          BoxShadow(
+            color: mood.color.withValues(alpha: 0.45),
+            blurRadius: AppDimens.spaceL,
+            offset: const Offset(0, AppDimens.spaceXs),
+          ),
+        ],
+      ),
+      child: Material(
+        color: mood.color,
+        borderRadius: BorderRadius.circular(AppDimens.radiusL),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(AppDimens.spaceM),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  mood.icon,
+                  size: AppDimens.iconXl,
                   color: AppColors.onColorSurface,
                 ),
-              ),
-            ],
+                const SizedBox(height: AppDimens.spaceS),
+                Text(
+                  l10n.moodTitle(mood.titleKey),
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.bodyStrong.copyWith(
+                    color: AppColors.onColorSurface,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

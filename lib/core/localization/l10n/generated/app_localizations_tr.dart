@@ -90,6 +90,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get browseByCategorySubtitle => 'Bir tür seç, içindeki her şeye gözat';
 
   @override
+  String get browseByTrendingLabel => 'Popüler';
+
+  @override
+  String get browseByTrendingSubtitle => 'Şu anda herkesin izlediklerine gözat';
+
+  @override
+  String get trendingMoviesTitle => 'Popüler Filmler';
+
+  @override
   String get moodSelectionTitle => 'Mod Seç';
 
   @override
@@ -258,6 +267,15 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get continueAsGuestLabel => 'Misafir olarak devam et';
+
+  @override
+  String get orContinueWithLabel => 'veya devam et';
+
+  @override
+  String get continueWithGoogleLabel => 'Google ile devam et';
+
+  @override
+  String get continueWithAppleLabel => 'Apple ile devam et';
 
   @override
   String howToBrowseTitleWithName(String name) {

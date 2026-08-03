@@ -55,6 +55,25 @@ class MovieRepository {
     return results.map(MovieModel.fromJson).toList()..shuffle();
   }
 
+  /// Fetches [page] of TMDB's actual trending ranking (`/trending/movie/week`,
+  /// no filters to apply — see `TrendingSource`), cached under the fixed
+  /// `sourceKey` `'trending'`. Otherwise mirrors [fetchPage] exactly
+  /// (cache write, shuffle for swipe-stack variety).
+  Future<List<MovieModel>> fetchTrendingPage(int page) async {
+    const sourceKey = 'trending';
+    final json = await _apiService.trendingMovies(page: page);
+    final results =
+        (json['results'] as List<dynamic>? ?? []).cast<Map<String, dynamic>>();
+
+    await _cacheService.cacheMoviePage(
+      sourceKey: sourceKey,
+      page: page,
+      results: results,
+    );
+
+    return results.map(MovieModel.fromJson).toList()..shuffle();
+  }
+
   /// Free-text title search via `/search/movie`. Always live — search
   /// results aren't cached, unlike discovery pages.
   Future<List<MovieModel>> searchMovies(String query) async {

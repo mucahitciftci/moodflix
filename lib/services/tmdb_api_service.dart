@@ -39,6 +39,17 @@ class TmdbApiService {
     return response.data!;
   }
 
+  /// `GET /trending/movie/week` — TMDB's own trending ranking, unlike
+  /// [discoverMovies] which just sorts a filtered query; used for the
+  /// "Popüler" browse entry, which has no mood/genre filter to apply.
+  Future<Map<String, dynamic>> trendingMovies({required int page}) async {
+    final response = await _dio.get<Map<String, dynamic>>(
+      ApiConstants.trendingMoviesWeekly,
+      queryParameters: {..._authParams, 'page': '$page'},
+    );
+    return response.data!;
+  }
+
   /// `GET /search/movie` — free-text title search, used by the search
   /// screen. Unlike `discoverMovies`, TMDB's own relevance ranking is kept
   /// as-is (not shuffled) since it's meaningful here.

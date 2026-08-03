@@ -6,7 +6,9 @@ import '../../core/constants/app_dimens.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/localization/l10n/generated/app_localizations.dart';
 import '../../core/routing/app_router.dart';
+import '../../models/discovery_source.dart';
 import '../../viewmodels/auth_viewmodel.dart';
+import '../../viewmodels/movie_discovery_viewmodel.dart';
 import '../widgets/chameleon_mascot.dart';
 
 const double _mascotSize = AppDimens.iconXl * 2;
@@ -103,6 +105,18 @@ class BrowseModeScreen extends ConsumerWidget {
               subtitle: l10n.browseByCategorySubtitle,
               onTap: () => Navigator.of(context)
                   .pushNamed(AppRoutes.categorySelection),
+            ),
+            const SizedBox(height: AppDimens.spaceM),
+            _BrowseModeCard(
+              icon: Icons.trending_up_rounded,
+              label: l10n.browseByTrendingLabel,
+              subtitle: l10n.browseByTrendingSubtitle,
+              onTap: () {
+                const source = TrendingSource();
+                ref.read(movieDiscoveryViewModelProvider.notifier).load(source);
+                Navigator.of(context)
+                    .pushNamed(AppRoutes.discovery, arguments: source);
+              },
             ),
           ],
         ),

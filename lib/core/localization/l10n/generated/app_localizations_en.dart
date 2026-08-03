@@ -92,6 +92,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Pick a genre and browse everything in it';
 
   @override
+  String get browseByTrendingLabel => 'Trending';
+
+  @override
+  String get browseByTrendingSubtitle =>
+      'See what everyone\'s watching right now';
+
+  @override
+  String get trendingMoviesTitle => 'Trending Movies';
+
+  @override
   String get moodSelectionTitle => 'Choose a Mood';
 
   @override
@@ -259,6 +269,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get continueAsGuestLabel => 'Continue as guest';
+
+  @override
+  String get orContinueWithLabel => 'or continue with';
+
+  @override
+  String get continueWithGoogleLabel => 'Continue with Google';
+
+  @override
+  String get continueWithAppleLabel => 'Continue with Apple';
 
   @override
   String howToBrowseTitleWithName(String name) {

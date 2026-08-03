@@ -63,9 +63,10 @@ abstract final class AppTheme {
       ),
       cardTheme: CardThemeData(
         color: surface,
-        elevation: AppDimens.elevationS,
+        elevation: 0,
+        clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimens.radiusM),
+          borderRadius: BorderRadius.circular(AppDimens.radiusL),
         ),
       ),
       chipTheme: ChipThemeData(

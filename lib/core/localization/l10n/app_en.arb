@@ -135,6 +135,21 @@
     "description": "Subtitle under the 'By Category' browse option."
   },
 
+  "browseByTrendingLabel": "Trending",
+  "@browseByTrendingLabel": {
+    "description": "Option to browse TMDB's actual trending ranking, no mood/genre filter."
+  },
+
+  "browseByTrendingSubtitle": "See what everyone's watching right now",
+  "@browseByTrendingSubtitle": {
+    "description": "Subtitle under the 'Trending' browse option."
+  },
+
+  "trendingMoviesTitle": "Trending Movies",
+  "@trendingMoviesTitle": {
+    "description": "App bar title of the discovery screen when browsing trending movies."
+  },
+
   "moodSelectionTitle": "Choose a Mood",
   "@moodSelectionTitle": {
     "description": "App bar title of the mood selection screen (no longer the app's home screen)."
@@ -247,6 +262,21 @@
   "continueAsGuestLabel": "Continue as guest",
   "@continueAsGuestLabel": {
     "description": "Button on the startup auth screen to skip login and browse without an account."
+  },
+
+  "orContinueWithLabel": "or continue with",
+  "@orContinueWithLabel": {
+    "description": "Divider text between the email/password form and social sign-in buttons."
+  },
+
+  "continueWithGoogleLabel": "Continue with Google",
+  "@continueWithGoogleLabel": {
+    "description": "Button to sign in with a Google account."
+  },
+
+  "continueWithAppleLabel": "Continue with Apple",
+  "@continueWithAppleLabel": {
+    "description": "Button to sign in with an Apple ID."
   },
 
   "howToBrowseTitleWithName": "How would you like to find movies, {name}?",

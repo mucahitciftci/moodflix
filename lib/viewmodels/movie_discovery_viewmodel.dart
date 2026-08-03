@@ -69,6 +69,19 @@ class MovieDiscoveryViewModel extends AsyncNotifier<MovieDiscoveryState> {
         .toList();
   }
 
+  /// `TrendingSource` has no mood/genre filter to send through
+  /// `/discover/movie` — it hits TMDB's own trending ranking instead, via a
+  /// dedicated repository method. Every other source goes through the
+  /// generic `fetchPage`.
+  Future<List<MovieModel>> _fetchPage(DiscoverySource source, int page) {
+    if (source is TrendingSource) return _repository.fetchTrendingPage(page);
+    return _repository.fetchPage(
+      sourceKey: source.cacheKey,
+      queryParams: source.queryParams,
+      page: page,
+    );
+  }
+
   /// Switches the screen to [source]: shows the cached first page instantly
   /// (if present), then fetches a fresh first page from the network.
   Future<void> load(DiscoverySource source) async {
@@ -78,11 +91,7 @@ class MovieDiscoveryViewModel extends AsyncNotifier<MovieDiscoveryState> {
     );
 
     try {
-      final fresh = await _repository.fetchPage(
-        sourceKey: source.cacheKey,
-        queryParams: source.queryParams,
-        page: 1,
-      );
+      final fresh = await _fetchPage(source, 1);
       state = AsyncData(
         MovieDiscoveryState(
           source: source,
@@ -114,11 +123,7 @@ class MovieDiscoveryViewModel extends AsyncNotifier<MovieDiscoveryState> {
     final nextPage = current.page + 1;
 
     try {
-      final fetched = await _repository.fetchPage(
-        sourceKey: source.cacheKey,
-        queryParams: source.queryParams,
-        page: nextPage,
-      );
+      final fetched = await _fetchPage(source, nextPage);
       final updated = state.value ?? current;
       state = AsyncData(
         updated.copyWith(

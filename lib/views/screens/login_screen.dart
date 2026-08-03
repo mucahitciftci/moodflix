@@ -1,3 +1,6 @@
+import 'dart:io' show Platform;
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -5,8 +8,10 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_dimens.dart';
 import '../../core/localization/l10n/generated/app_localizations.dart';
 import '../../core/routing/app_router.dart';
+import '../../services/auth_service.dart';
 import '../../viewmodels/auth_viewmodel.dart';
 import '../widgets/chameleon_mascot.dart';
+import '../widgets/google_sign_in_render_button.dart';
 
 /// Email/password login — also the app's startup screen when no one is
 /// signed in (see `AuthGateScreen`), in which case a "continue as guest"
@@ -87,12 +92,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       appBar: AppBar(title: Text(l10n.loginScreenTitle)),
       body: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment.topCenter,
-            radius: 1.1,
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: const [0.0, 0.6, 1.0],
             colors: [
-              AppColors.primary.withValues(alpha: 0.16),
-              AppColors.primary.withValues(alpha: 0),
+              AppColors.primaryDark.withValues(alpha: 0.55),
+              Theme.of(context).scaffoldBackgroundColor,
+              Theme.of(context).scaffoldBackgroundColor,
             ],
           ),
         ),
@@ -176,6 +183,86 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           : Text(l10n.loginScreenTitle),
                     ),
                   ),
+                  const SizedBox(height: AppDimens.spaceL),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: Theme.of(context).colorScheme.outlineVariant,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppDimens.spaceS,
+                        ),
+                        child: Text(
+                          l10n.orContinueWithLabel,
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Theme.of(context).colorScheme.outlineVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppDimens.spaceM),
+                  if (kIsWeb)
+                    FutureBuilder<void>(
+                      future: ref
+                          .read(authViewModelProvider.notifier)
+                          .ensureGoogleSignInReady(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState != ConnectionState.done) {
+                          return const SizedBox(
+                            height: AppDimens.iconXl,
+                            child: Center(
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          );
+                        }
+                        if (!ref.read(authServiceProvider).googleSignInAvailable) {
+                          return SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton.icon(
+                              onPressed: null,
+                              icon: const Icon(Icons.g_mobiledata_rounded, size: AppDimens.iconL),
+                              label: Text(l10n.continueWithGoogleLabel),
+                            ),
+                          );
+                        }
+                        return Center(child: renderGoogleSignInButton());
+                      },
+                    )
+                  else
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: authState.isLoading
+                            ? null
+                            : () => ref
+                                .read(authViewModelProvider.notifier)
+                                .signInWithGoogle(),
+                        icon: const Icon(Icons.g_mobiledata_rounded, size: AppDimens.iconL),
+                        label: Text(l10n.continueWithGoogleLabel),
+                      ),
+                    ),
+                  if (!kIsWeb && Platform.isIOS) ...[
+                    const SizedBox(height: AppDimens.spaceM),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: authState.isLoading
+                            ? null
+                            : () => ref
+                                .read(authViewModelProvider.notifier)
+                                .signInWithApple(),
+                        icon: const Icon(Icons.apple, size: AppDimens.iconL),
+                        label: Text(l10n.continueWithAppleLabel),
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: AppDimens.spaceM),
                   TextButton(
                     onPressed: () => Navigator.of(context).pushNamed(AppRoutes.signUp),

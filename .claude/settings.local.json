@@ -69,14 +69,31 @@
       "Bash(pkill -f \"flutter run -d emulator-5554\")",
       "Bash(nohup flutter run -d emulator-5554)",
       "Bash(flutter build *)",
-      "Bash(adb -s emulator-5554 emu kill)"
+      "Bash(adb -s emulator-5554 emu kill)",
+      "Bash(nohup flutter run -d \"CCDCBC81-4FCB-4BE8-9D17-DAADB866515B\" > /tmp/moodflix_ios.log 2>&1 & disown; echo started)",
+      "Bash(xcodebuild -version)",
+      "Bash(swift --version)",
+      "Bash(pod --version)",
+      "Bash(xcode-select -p)",
+      "Bash(softwareupdate --list)",
+      "Bash(flutter clean *)",
+      "Bash(sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/IPHONEOS_DEPLOYMENT_TARGET = 15.0;/g' ios/Runner.xcodeproj/project.pbxproj)",
+      "Bash(sed -i '' \"s|# platform :ios, '13.0'|platform :ios, '15.0'|\" ios/Podfile)",
+      "Bash(pkill -f \"flutter run.*CCDCBC81\")",
+      "Bash(xcrun simctl *)",
+      "Bash(file ~/Downloads/tasarım.*)",
+      "Bash(mkdir -p /private/tmp/claude-501/-Users-mucahit-Desktop-moodflix/17206f2b-cb92-498a-9b47-fd9a1d8cfe19/scratchpad)",
+      "Bash(flutter create *)",
+      "Bash(cp \"/Users/mucahit/Downloads/tasarım.\" \"/private/tmp/claude-501/-Users-mucahit-Desktop-moodflix/17206f2b-cb92-498a-9b47-fd9a1d8cfe19/scratchpad/design_preview/lib/main.dart\" *)",
+      "Bash(python3 -)"
     ],
     "additionalDirectories": [
       "/Users/mucahit/Desktop/moodflix",
       "/Users/mucahit/.claude/projects/-Users-mucahit-Desktop-moodflix",
       "/private/tmp",
       "/Users/mucahit/Desktop/moodflix/.dev-chrome-profile",
-      "/tmp"
+      "/tmp",
+      "/Users/mucahit/Downloads"
     ]
   }
 }

@@ -30,6 +30,7 @@ class DiscoveryScreen extends ConsumerWidget {
     final title = switch (source) {
       MoodSource(:final moodId) => l10n.moodTitle(MoodConfig.byId(moodId).titleKey),
       GenreSource(:final genreId) => l10n.genreName(GenreConfig.byId(genreId).nameKey),
+      TrendingSource() => l10n.trendingMoviesTitle,
     };
     final discoveryState = ref.watch(movieDiscoveryViewModelProvider);
 

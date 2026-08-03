@@ -56,3 +56,23 @@ class GenreSource extends DiscoverySource {
   @override
   int get hashCode => genreId.hashCode;
 }
+
+/// TMDB's actual trending ranking (`/trending/movie/week`) rather than a
+/// filtered `/discover/movie` query — there's no mood/genre to pick, so
+/// [queryParams] is unused; `MovieDiscoveryViewModel` special-cases this
+/// variant to call `MovieRepository.fetchTrendingPage` instead.
+class TrendingSource extends DiscoverySource {
+  const TrendingSource();
+
+  @override
+  String get cacheKey => 'trending';
+
+  @override
+  Map<String, String> get queryParams => const {};
+
+  @override
+  bool operator ==(Object other) => other is TrendingSource;
+
+  @override
+  int get hashCode => 'trending'.hashCode;
+}

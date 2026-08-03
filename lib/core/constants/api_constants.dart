@@ -11,6 +11,13 @@ abstract final class ApiConstants {
   static String get imageBaseUrl =>
       dotenv.env['TMDB_IMAGE_BASE_URL'] ?? 'https://image.tmdb.org/t/p';
 
+  /// The Firebase-generated **Web** OAuth client ID for Google Sign-In —
+  /// used as `clientId` on web and `serverClientId` on Android/iOS (the
+  /// latter is what lets those platforms return a Firebase-verifiable ID
+  /// token, not just an access token). Get this from Firebase Console →
+  /// Authentication → Sign-in method → Google, after enabling it.
+  static String get googleWebClientId => dotenv.env['GOOGLE_WEB_CLIENT_ID'] ?? '';
+
   // Poster/backdrop image sizes, per https://developer.themoviedb.org/docs/image-basics
   static const String posterSizeSmall = 'w154';
   static const String posterSizeMedium = 'w342';
@@ -35,6 +42,7 @@ abstract final class ApiConstants {
 
   // Endpoints (relative to baseUrl)
   static const String discoverMovies = '/discover/movie';
+  static const String trendingMoviesWeekly = '/trending/movie/week';
   static const String searchMovies = '/search/movie';
   static const String movieDetails = '/movie'; // + /{id}
   static const String movieVideos = '/videos'; // + appended to /movie/{id}

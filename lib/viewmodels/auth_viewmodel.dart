@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -24,9 +25,27 @@ final authStateProvider = StreamProvider<User?>((ref) {
 /// notifier's own state carries no user data, just the action's progress.
 class AuthViewModel extends AsyncNotifier<void> {
   @override
-  Future<void> build() async {}
+  Future<void> build() async {
+    // On web, Google sign-in completes via the SDK's own rendered button
+    // (see `LoginScreen`) rather than an imperative call — this is what
+    // picks up that result and finishes the Firebase + profile-sync side.
+    // `ensureGoogleSignInReady` never throws (see `AuthService`), so a
+    // missing/rejected client ID just leaves Google sign-in unavailable
+    // instead of breaking the rest of this notifier's `build()`.
+    if (kIsWeb) {
+      await _service.ensureGoogleSignInReady();
+      if (_service.googleSignInAvailable) {
+        _service.googleSignInEventsForWeb.listen((_) async {
+          final name = _service.currentUser?.displayName;
+          if (name != null && name.isNotEmpty) await _upsertProfile(name);
+        });
+      }
+    }
+  }
 
   AuthService get _service => ref.read(authServiceProvider);
+
+  Future<void> ensureGoogleSignInReady() => _service.ensureGoogleSignInReady();
 
   Future<void> signUp({
     required String email,
@@ -46,6 +65,27 @@ class AuthViewModel extends AsyncNotifier<void> {
       await _service.signIn(email: email, password: password);
       // Self-heals the public `users/{uid}` profile doc for accounts
       // created before this doc existed, and keeps it in sync generally.
+      final name = _service.currentUser?.displayName;
+      if (name != null && name.isNotEmpty) await _upsertProfile(name);
+    });
+  }
+
+  /// Native/imperative Google sign-in for Android/iOS/desktop — **not
+  /// called on web**, where the SDK's own rendered button drives sign-in
+  /// instead (see `build`'s `googleSignInEventsForWeb` subscription).
+  Future<void> signInWithGoogle() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      await _service.signInWithGoogle();
+      final name = _service.currentUser?.displayName;
+      if (name != null && name.isNotEmpty) await _upsertProfile(name);
+    });
+  }
+
+  Future<void> signInWithApple() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      await _service.signInWithApple();
       final name = _service.currentUser?.displayName;
       if (name != null && name.isNotEmpty) await _upsertProfile(name);
     });
