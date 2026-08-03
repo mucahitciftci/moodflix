@@ -116,9 +116,14 @@ class AuthService {
   Future<void> _initializeGoogleSignIn() async {
     if (ApiConstants.googleWebClientId.isEmpty) return;
     try {
+      // `google_sign_in_web` rejects a non-null serverClientId outright
+      // ("serverClientId is not supported on Web") — the two params are
+      // mutually exclusive per platform: web only wants clientId, native
+      // (Android/iOS) only wants serverClientId (that's what makes them
+      // return a Firebase-verifiable ID token).
       await GoogleSignIn.instance.initialize(
         clientId: kIsWeb ? ApiConstants.googleWebClientId : null,
-        serverClientId: ApiConstants.googleWebClientId,
+        serverClientId: kIsWeb ? null : ApiConstants.googleWebClientId,
       );
       _googleSignInAvailable = true;
     } catch (_) {

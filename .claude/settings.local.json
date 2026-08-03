@@ -85,7 +85,15 @@
       "Bash(mkdir -p /private/tmp/claude-501/-Users-mucahit-Desktop-moodflix/17206f2b-cb92-498a-9b47-fd9a1d8cfe19/scratchpad)",
       "Bash(flutter create *)",
       "Bash(cp \"/Users/mucahit/Downloads/tasarım.\" \"/private/tmp/claude-501/-Users-mucahit-Desktop-moodflix/17206f2b-cb92-498a-9b47-fd9a1d8cfe19/scratchpad/design_preview/lib/main.dart\" *)",
-      "Bash(python3 -)"
+      "Bash(python3 -)",
+      "Bash(/usr/libexec/PlistBuddy -c \"Print :REVERSED_CLIENT_ID\" /Users/mucahit/Desktop/moodflix/ios/Runner/GoogleService-Info.plist)",
+      "Bash(/usr/libexec/PlistBuddy -c \"Print :CLIENT_ID\" /Users/mucahit/Desktop/moodflix/ios/Runner/GoogleService-Info.plist)",
+      "Bash(/usr/libexec/PlistBuddy -c \"Print\" /Users/mucahit/Desktop/moodflix/ios/Runner/GoogleService-Info.plist)",
+      "Bash(keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android)",
+      "Bash(find / -maxdepth 6 -iname \"jbr\" -type d)",
+      "Bash(find '/Users/mucahit/Library/Application Support' -maxdepth 3 -iname *jbr*)",
+      "Bash(find /Users/mucahit -maxdepth 4 -iname *.jdks* -type d)",
+      "Bash(\"/Applications/IntelliJ IDEA.app/Contents/jbr/Contents/Home/bin/keytool\" -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android)"
     ],
     "additionalDirectories": [
       "/Users/mucahit/Desktop/moodflix",
